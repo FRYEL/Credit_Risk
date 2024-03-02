@@ -6,3 +6,5 @@ hdbscan~=0.8.33
 scikit-learn~=1.4.1.post1
 xgboost~=2.0.3
 plotly~=5.19.0
+kneed~=0.8.5
+mlflow~=2.9.2
