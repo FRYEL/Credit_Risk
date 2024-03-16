@@ -7,12 +7,12 @@ import mlflow
 import mlflow.xgboost
 from utils.log import *
 
-df = pd.read_csv('../data/cleaned_data.csv')
+df = pd.read_csv('../df/cleaned_data.csv')
 
 # Generate synthetic dataset for demonstration
 X, y = df.drop(columns=['default']), df['default']
 
-# Split data into train and test sets
+# Split df into train and test sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
 # Define the experiment name

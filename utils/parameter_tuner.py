@@ -81,7 +81,7 @@ def tune_epsilon_parameter(X: pd.DataFrame, min_samples):
     plt.xlabel('Data Point')
     plt.ylabel('Distance to k-th Nearest Neighbor')
     plt.title('K-Distance Plot for DBSCAN Epsilon')
-    plt.axvline(x=eps_value, color='r', linestyle='--', label=f'Elbow at data point {eps_value}')
+    plt.axvline(x=eps_value, color='r', linestyle='--', label=f'Elbow at df point {eps_value}')
     plt.legend()
     actual_eps_value = round(distances[eps_value], 2)
     LOGGER.info(f"The optimal epsilon value (Elbow point) for DBSCAN is: {actual_eps_value}")
