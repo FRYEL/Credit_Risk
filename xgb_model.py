@@ -1,28 +1,33 @@
 import xgboost as xgb
 import pandas as pd
-from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split, RandomizedSearchCV
 from sklearn.metrics import roc_auc_score
 import mlflow
 import mlflow.xgboost
-from utils.log import *
 
-df = pd.read_csv('../df/cleaned_data.csv')
+df = pd.read_csv('data/cleaned_data.csv', low_memory=False)
 
 # Generate synthetic dataset for demonstration
-X, y = df.drop(columns=['default']), df['default']
+X, y = df.drop(columns=['loan_status']), df['loan_status']
 
 # Split df into train and test sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-
+X_train, X_test, y_train, y_test = train_test_split(X, y,test_size=0.6, stratify=y, random_state=42)
+eval_set = [(X_test, y_test)]
 # Define the experiment name
 experiment_name = "XGBoost_Hyperparameter_Tuning"
 
 # Start MLflow experiment
 mlflow.set_experiment(experiment_name)
 
-# Define the classifier
-clf = xgb.XGBClassifier(objective="binary:logistic", seed=42)
+clf = xgb.sklearn.XGBClassifier(
+    objective="binary:logistic",
+    learning_rate=0.05,
+    seed=9616,
+    max_depth=20,
+    gamma=10,
+    n_estimators=500)
+
+clf.fit(X_train, y_train, early_stopping_rounds=20, eval_metric="auc", eval_set=eval_set, verbose=True)
 
 # Define parameter grid for RandomizedSearchCV
 param_grid = {
