@@ -3,7 +3,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from matplotlib.ticker import ScalarFormatter
 
-data = pd.read_csv("data/cleaned_data.csv")
+data = pd.read_csv("data/cleaned_data.csv", low_memory = False)
+
+print(data.head(5))
+
 
 # Histogram
 plt.figure(figsize=(10, 6))
@@ -34,7 +37,7 @@ plt.show()
 
 # Boxplot
 plt.figure(figsize=(10, 6))
-sns.boxplot(x=data['grade'], y=data['int_rate'], order=['A', 'B', 'C', 'D', 'E', 'F', 'G'], palette='viridis')
+sns.boxplot(x=data['grade'], y=data['int_rate'], palette='viridis')
 plt.xlabel('Loan Grade')
 plt.ylabel('Interest Rate')
 plt.title('Interest Rate Distribution by Loan Grade')

@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.cluster import DBSCAN
 from sklearn.metrics import silhouette_score as ss
 import itertools
-from log import *
+from utils.log import *
 from sklearn.neighbors import NearestNeighbors
 from kneed import KneeLocator
 

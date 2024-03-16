@@ -1,1 +1,5 @@
 *.csv
+Old_Notebooks/
+loan/
+credit-risk-dataset.zip
+LCDataDictionary.xlsx
