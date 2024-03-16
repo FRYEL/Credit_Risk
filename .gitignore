@@ -2,4 +2,5 @@
 Old_Notebooks/
 loan/
 credit-risk-dataset.zip
-LCDataDictionary.xlsxOld_Notebooks/
+*.xlsx
+
