@@ -8,13 +8,16 @@ import mlflow.xgboost
 df = pd.read_csv('data/cleaned_data.csv', low_memory=False)
 
 # Generate synthetic dataset for demonstration
-X, y = df.drop(columns=['loan_status']), df['loan_status']
+X = df.drop(columns=['loan_status'])
+y = df['loan_status']
 
 # Split df into train and test sets
-X_train, X_test, y_train, y_test = train_test_split(X, y,test_size=0.6, stratify=y, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.6, stratify=y, random_state=42)
 eval_set = [(X_test, y_test)]
 # Define the experiment name
 experiment_name = "XGBoost_Hyperparameter_Tuning"
+
+mlflow.set_tracking_uri("http://127.0.0.1:5000")
 
 # Start MLflow experiment
 mlflow.set_experiment(experiment_name)
@@ -25,9 +28,11 @@ clf = xgb.sklearn.XGBClassifier(
     seed=9616,
     max_depth=20,
     gamma=10,
-    n_estimators=500)
+    n_estimators=500,
+    early_stopping_rounds=20,
+    eval_metric='auc')
 
-clf.fit(X_train, y_train, early_stopping_rounds=20, eval_metric="auc", eval_set=eval_set, verbose=True)
+clf.fit(X_train, y_train, eval_set=eval_set, verbose=True)
 
 # Define parameter grid for RandomizedSearchCV
 param_grid = {
@@ -40,12 +45,12 @@ param_grid = {
 }
 
 # Define RandomizedSearchCV with ROC AUC as scoring metric
-random_search = RandomizedSearchCV(clf, param_distributions=param_grid, n_iter=50, scoring='roc_auc', cv=5, verbose=1,
+random_search = RandomizedSearchCV(clf, param_distributions=param_grid, n_iter=150, scoring='roc_auc', cv=5, verbose=1,
                                    n_jobs=-1)
 
 # Perform RandomizedSearchCV
 with mlflow.start_run():
-    random_search.fit(X_train, y_train)
+    random_search.fit(X_train, y_train, eval_set=eval_set, verbose=True)
 
     # Log parameters
     for param, value in random_search.best_params_.items():
