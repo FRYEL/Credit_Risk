@@ -47,16 +47,20 @@ plt.ylabel('Frequency')
 plt.title('Interest Rate Distribution')
 plt.show()
 
-# Plot annual income distribution with logarithmic x-axis
+# Plot annual income distribution with logarithmic x-axis and smaller range
 plt.figure(figsize=(10, 6))
 sns.histplot(data=df, x='annual_inc', kde=True, palette=colors[2])
-plt.xlabel('Annual Income (Log Scale)')
+plt.xlabel('Annual Income (Log Scale) 9,999-200,000')
 plt.ylabel('Frequency')
 plt.title('Annual Income Distribution')
 plt.xscale('log')
+# Set the limits of the x-axis to the desired range
+plt.xlim(9999, 200000)  # Adjust the limits according to your desired range
+# Format x-axis ticks to display currency format
 plt.gca().xaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: '${:,.0f}'.format(x)))
 
 plt.show()
+
 
 # Plot debt-to-income ratio distribution
 plt.figure(figsize=(10, 6))
@@ -117,9 +121,9 @@ plt.ylabel('Interest Rate')
 plt.title('Interest Rate Distribution by Loan Grade')
 plt.show()
 
-# Scatterplot
+# Scatterplot with plt.scatter
 plt.figure(figsize=(10, 6))
-sns.scatterplot(x=df['loan_amnt'], y=df['annual_inc'], alpha=0.1, color=colors[4], s=4)
+plt.scatter(x=df['loan_amnt'], y=df['annual_inc'], alpha=0.1, color=colors[4], s=1)
 plt.xlabel('Loan Amount')
 plt.ylabel('Annual Income')
 plt.title('Loan Amount vs. Annual Income')
@@ -131,6 +135,7 @@ formatter.set_scientific(False)
 plt.gca().yaxis.set_major_formatter(formatter)
 plt.legend()
 plt.show()
+
 
 # Correlation Heatmap
 plt.figure(figsize=(10, 6))
