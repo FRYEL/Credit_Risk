@@ -3,12 +3,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from matplotlib.ticker import ScalarFormatter
 
-# Define color theme
-color_theme = ['#0476df', '#50b1ff', '#0458a5', '#88cbff', '#00457a', '#032a4d', '#9e9e9e', '#828282', '#0078d6']
-
 colors = ['#0476df', '#50b1ff', '#0458a5', '#88cbff', '#00457a', '#032a4d', '#9e9e9e', '#828282', '#0078d6']
 sns.set_palette(sns.color_palette(colors))
-sns.set_palette(color_theme)
+
 
 # Load df
 df = pd.read_csv("data/cleaned_data.csv", low_memory=False)
@@ -23,16 +20,6 @@ plt.title('Interest Rate Distribution by Loan Status')
 plt.xticks(rotation=45)
 plt.show()
 
-# Plot loan purpose distribution by loan status
-plt.figure(figsize=(12, 8))
-sns.countplot(data=df_legacy, x='loan_status', hue='purpose', palette='Blues')
-plt.xlabel('Loan Status')
-plt.ylabel('Count')
-plt.title('Loan Purpose Distribution by Loan Status')
-plt.xticks(rotation=45)
-plt.legend(title='Loan Purpose', bbox_to_anchor=(1, 1))
-plt.show()
-
 # Plot debt-to-income ratio distribution by loan status
 plt.figure(figsize=(10, 6))
 sns.violinplot(data=df, x='loan_status', y='dti')
@@ -40,16 +27,6 @@ plt.xlabel('Loan Status')
 plt.ylabel('Debt-to-Income Ratio')
 plt.title('Debt-to-Income Ratio Distribution by Loan Status')
 plt.xticks(rotation=45)
-plt.show()
-
-# Plot employment length distribution by loan status
-plt.figure(figsize=(12, 8))
-sns.countplot(data=df_legacy, x='loan_status', hue='emp_length', palette='Blues')
-plt.xlabel('Loan Status')
-plt.ylabel('Count')
-plt.title('Employment Length Distribution by Loan Status')
-plt.xticks(rotation=45)
-plt.legend(title='Employment Length', bbox_to_anchor=(1, 1))
 plt.show()
 
 # Plot verification status distribution by loan status
@@ -64,7 +41,7 @@ plt.show()
 
 # Plot interest rate distribution
 plt.figure(figsize=(10, 6))
-sns.histplot(df['int_rate'], kde=True)
+sns.histplot(df['int_rate'], kde=True, palette=colors[3])
 plt.xlabel('Interest Rate (%)')
 plt.ylabel('Frequency')
 plt.title('Interest Rate Distribution')
@@ -72,12 +49,11 @@ plt.show()
 
 # Plot annual income distribution with logarithmic x-axis
 plt.figure(figsize=(10, 6))
-sns.histplot(data=df, x='annual_inc', kde=True)
-plt.xlabel('Annual Income')
+sns.histplot(data=df, x='annual_inc', kde=True, palette=colors[2])
+plt.xlabel('Annual Income (Log Scale)')
 plt.ylabel('Frequency')
-plt.title('Annual Income Distribution (Log Scale)')
-plt.xscale('log')  # Set x-axis to logarithmic scale
-# Customize tick labels on x-axis
+plt.title('Annual Income Distribution')
+plt.xscale('log')
 plt.gca().xaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: '${:,.0f}'.format(x)))
 
 plt.show()
@@ -91,15 +67,15 @@ plt.title('Debt-to-Income Ratio Distribution')
 plt.show()
 
 # Plot loan purpose distribution
-plt.figure(figsize=(12, 8))
-sns.countplot(data=df_legacy, y='purpose', order=df_legacy['purpose'].value_counts().index, palette='Blues')
+plt.figure(figsize=(10, 6))
+sns.countplot(data=df_legacy, y='purpose', order=df_legacy['purpose'].value_counts().index, palette=colors)
 plt.xlabel('Count')
 plt.ylabel('Loan Purpose')
 plt.title('Distribution of Loan Purposes')
 plt.show()
 
 # Plot loan status distribution (target variable)
-plt.figure(figsize=(8, 6))
+plt.figure(figsize=(10, 6))
 sns.countplot(data=df, x='loan_status')
 plt.xlabel('Loan Status')
 plt.ylabel('Count')
@@ -109,7 +85,7 @@ plt.show()
 
 # Histogram
 plt.figure(figsize=(10, 6))
-plt.hist(df['loan_amnt'], bins=30, color=colors[0], edgecolor='black')
+plt.hist(df['loan_amnt'], bins=30, color=colors[0], edgecolor='white')
 plt.xlabel('Loan Amount')
 plt.ylabel('Frequency')
 plt.title('Distribution of Loan Amounts')
@@ -125,7 +101,7 @@ plt.show()
 
 
 # Pie Chart
-plt.figure(figsize=(8, 8))
+plt.figure(figsize=(10, 6))
 grade_counts = df_legacy['grade'].value_counts()
 grade_order = sorted(grade_counts.index)
 grade_counts.loc[grade_order].plot(kind='pie', autopct='%1.1f%%', colors=colors[2:])
@@ -135,7 +111,7 @@ plt.show()
 
 # Boxplot
 plt.figure(figsize=(10, 6))
-sns.boxplot(x=df_legacy['grade'], y=df_legacy['int_rate'],order=['A','B','C','D','E','F','G'], palette=colors)
+sns.boxplot(x=df_legacy['grade'], y=df_legacy['int_rate'],order=['A','B','C','D','E','F','G'])
 plt.xlabel('Loan Grade')
 plt.ylabel('Interest Rate')
 plt.title('Interest Rate Distribution by Loan Grade')
@@ -143,7 +119,7 @@ plt.show()
 
 # Scatterplot
 plt.figure(figsize=(10, 6))
-sns.scatterplot(x=df['loan_amnt'], y=df['annual_inc'], alpha=0.5, color=colors[4])
+sns.scatterplot(x=df['loan_amnt'], y=df['annual_inc'], alpha=0.1, color=colors[4], s=4)
 plt.xlabel('Loan Amount')
 plt.ylabel('Annual Income')
 plt.title('Loan Amount vs. Annual Income')
@@ -157,7 +133,7 @@ plt.legend()
 plt.show()
 
 # Correlation Heatmap
-plt.figure(figsize=(12, 8))
+plt.figure(figsize=(10, 6))
 corr = df.corr()
 sns.heatmap(corr, annot=True, cmap='Blues', fmt=".2f")
 plt.title('Correlation Heatmap')
