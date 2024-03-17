@@ -68,9 +68,13 @@ with mlflow.start_run():
     for i, importance in enumerate(feature_importance):
         mlflow.log_metric(f"feature_{i}_importance", importance)
 
+    # Log dataset
+    mlflow.log_artifact('data/cleaned_data.csv', artifact_path='datasets')
+
     # Log model
     mlflow.xgboost.log_model(bayes_search.best_estimator_, "xgboost_model")
 
+    # Prepare ROC AUC Curve
     all_roc_auc_scores = bayes_search.cv_results_['mean_test_score']
 
     # Sort ROC AUC scores in descending order
@@ -100,3 +104,5 @@ with mlflow.start_run():
 
     # Log plot as artifact in MLflow
     mlflow.log_artifact(plot_path, "plots")
+
+    mlflow.end_run()
