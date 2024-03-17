@@ -1,8 +1,9 @@
 artifact_uri: file:///C:/Users/furka/PycharmProjects/Credit_Risk/mlruns/389901588864882854/35c55c8586804010bcca1c55e97e6e20/artifacts
+deleted_time: 1710712353424
 end_time: 1710626016665
 entry_point_name: ''
 experiment_id: '389901588864882854'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: 35c55c8586804010bcca1c55e97e6e20
 run_name: respected-zebra-106
 run_uuid: 35c55c8586804010bcca1c55e97e6e20
