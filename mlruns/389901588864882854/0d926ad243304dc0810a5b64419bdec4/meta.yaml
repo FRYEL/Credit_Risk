@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/furka/PycharmProjects/Credit_Risk/mlruns/389901588864882854/0d926ad243304dc0810a5b64419bdec4/artifacts
+end_time: 1710626925580
+entry_point_name: ''
+experiment_id: '389901588864882854'
+lifecycle_stage: active
+run_id: 0d926ad243304dc0810a5b64419bdec4
+run_name: suave-flea-948
+run_uuid: 0d926ad243304dc0810a5b64419bdec4
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1710626895697
+status: 4
+tags: []
+user_id: furka
