@@ -106,7 +106,5 @@ with mlflow.start_run():
     # Log plot as artifact in MLflow
     mlflow.log_artifact(plot_path, "plots")
 
-    # Log plot as artifact in MLflow
-    mlflow.log_artifact(plot_path, "plots")
 
     mlflow.end_run()
