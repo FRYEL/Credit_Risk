@@ -86,8 +86,9 @@ with mlflow.start_run():
 
     # Plot ROC curves for the top 3 models
     plt.figure(figsize=(10, 6))
-    for i, idx in enumerate(sorted_indices[:3]):
-        model = bayes_search.cv_results_['estimator'][idx]
+    for i, params in enumerate(top_3_params):
+        model = xgb.sklearn.XGBClassifier(**params)
+        model.fit(X_train, y_train)
         y_pred_proba = model.predict_proba(X_test)[:, 1]
         fpr, tpr, _ = roc_curve(y_test, y_pred_proba)
         plt.plot(fpr, tpr, label=f"Model {i + 1} (AUC = {top_3_roc_auc[i]:.2f})")
@@ -101,6 +102,9 @@ with mlflow.start_run():
     # Save plot as image
     plot_path = "top_3_roc_curves_plot.png"
     plt.savefig(plot_path)
+
+    # Log plot as artifact in MLflow
+    mlflow.log_artifact(plot_path, "plots")
 
     # Log plot as artifact in MLflow
     mlflow.log_artifact(plot_path, "plots")
