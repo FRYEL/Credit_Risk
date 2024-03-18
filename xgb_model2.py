@@ -84,7 +84,7 @@ with mlflow.start_run():
     plt.title('Mean Test Score vs Learning Rate')
     plt.savefig('tuning_results.png')
     # Log the plot
-    mlflow.log_artifact('tuning_results.png', artifact_path='visualizations')
+    mlflow.log_artifact('Plots/tuning_results.png', artifact_path='visualizations')
 
     # Log model
     mlflow.xgboost.log_model(random_search.best_estimator_, "xgboost_model")
