@@ -14,6 +14,10 @@ from sklearn.metrics import roc_auc_score
 from skopt import BayesSearchCV
 import mlflow.xgboost
 from sklearn.model_selection import StratifiedShuffleSplit
+import matplotlib.pyplot as plt
+from sklearn.metrics import roc_curve
+import numpy as np
+from sklearn.model_selection import train_test_split
 
 
 def get_data():
@@ -51,6 +55,25 @@ def data_pipeline():
     data = get_data()
     out = preprocess_data(data)
     return out
+
+
+def runtime_split(data, df_size):
+    """
+    Reduce the size of the initial dataset for runtime improvements
+    :param data: unprocessed dataset
+    :param df_size: desired size of the reduced dataset
+    :return:
+    """
+    # Splitting the DataFrame
+    X_train, X_test, y_train, y_test = train_test_split(data.drop('loan_status', axis=1),
+                                                        data['loan_status'],
+                                                        test_size=df_size,
+                                                        stratify=data['loan_status'],
+                                                        random_state=42)
+
+    # Merging back into one DataFrame
+    reduced_df = pd.concat([X_test, y_test], axis=1)
+    return reduced_df
 
 
 def prepare_split(data, test_size=0.6):
@@ -131,6 +154,39 @@ def model_tuning(X_train, y_train, eval_set):
     return bayes_search
 
 
+def create_plots(bayes_search, X_train, y_train, X_test, y_test):
+    """
+    Creates the ROC AUC curve plot
+    :param bayes_search: fitted BayesSearchCV
+    :param X_train: trainings data
+    :param y_train: trainings target data
+    :param X_test: test data
+    :param y_test: test target data
+    :return: shows ROC AUC curve plot
+    """
+    all_roc_auc_scores = bayes_search.cv_results_['mean_test_score']
+
+    # Find the index of the top-performing model
+    best_index = np.argmax(all_roc_auc_scores)
+    best_params = bayes_search.cv_results_['params'][best_index]
+    best_roc_auc = all_roc_auc_scores[best_index]
+
+    # Plot ROC curve for the best model
+    plt.figure(figsize=(10, 6))
+    model = xgb.sklearn.XGBClassifier(**best_params)
+    model.fit(X_train, y_train)
+    y_pred_proba = model.predict_proba(X_test)[:, 1]
+    fpr, tpr, _ = roc_curve(y_test, y_pred_proba)
+    plt.plot(fpr, tpr, label=f"Best Model (AUC = {best_roc_auc:.2f})")
+
+    plt.plot([0, 1], [0, 1], linestyle='--', color='grey', label='Random')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('ROC Curve for Best Model')
+    plt.legend()
+    plt.show()
+
+
 def mlflow_logging(bayes_search, X_test, y_test):
     """
     Logs the training params, best_train auc , test auc, feature importance, dataset
@@ -167,9 +223,17 @@ def run_experiment():
     :return:
     """
     processed_data = data_pipeline()
-    X_train, X_test, y_train, y_test, eval_set = prepare_split(processed_data, 0.6)
+    # SET TRUE OR FALSE TO USE runtime_split TO REDUCE INITIAL DATASET
+    reduce_data = True
+    if reduce_data:
+        reduced_dataset = runtime_split(processed_data, 0.3)
+        X_train, X_test, y_train, y_test, eval_set = prepare_split(reduced_dataset, 0.6)
+    else:
+        X_train, X_test, y_train, y_test, eval_set = prepare_split(processed_data, 0.6)
+
     model = model_tuning(X_train, y_train, eval_set)
     mlflow_logging(model, X_test, y_test)
+    create_plots(model, X_train, y_train, X_test, y_test)
 
 
 if __name__ == '__main__':
