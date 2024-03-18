@@ -9,7 +9,7 @@ def preprocess_data(df):
 
     # Extract relevant columns to new df
     df_indv.drop(columns=df_indv.columns.difference(
-        ['id', 'member_id', 'loan_amnt', 'funded_amnt', 'term', 'int_rate', 'installment',
+        ['loan_amnt', 'funded_amnt', 'term', 'int_rate', 'installment',
          'grade', 'sub_grade', 'emp_length', 'home_ownership', 'annual_inc', 'verification_status', 'loan_status',
          'purpose', 'addr_state', 'dti', 'delinq_2yrs', 'mths_since_last_delinq', 'total_acc', 'out_prncp',
          'total_pymnt', 'total_rec_prncp', 'total_rec_interest', 'total_rec_late_fee', 'acc_now_delinq']), inplace=True)
@@ -136,7 +136,7 @@ def preprocess_data(df):
     # Fit and transform the data
     df_indv = encoder2.fit_transform(df_indv, df_indv['loan_status'])
 
-    LOGGER.info('Engineering features...')
+    LOGGER.info('Feature engineering in progress...')
 
     df_indv['loan_to_income'] = round(df_indv['funded_amnt'] / df_indv['annual_inc'], 2)
     df_indv['loan_to_income'].replace(np.inf, 2, inplace=True)
@@ -147,13 +147,15 @@ def preprocess_data(df):
 
     df_indv['repayment_rate'] = round(df_indv['total_pymnt'] / df_indv['funded_amnt'], 2)
 
-    columns = ['id', 'member_id', 'loan_amnt', 'funded_amnt', 'term', 'int_rate',
+    df_indv['dti_month'] = round(df_indv['installment'] / (df_indv['annual_inc'] / 12),3)
+
+    columns = [ 'loan_amnt', 'funded_amnt', 'term', 'int_rate',
                'installment', 'grade', 'sub_grade', 'emp_length', 'home_ownership',
                'annual_inc', 'verification_status', 'purpose', 'addr_state', 'dti',
                'delinq_2yrs', 'mths_since_last_delinq',
                'total_acc', 'out_prncp', 'total_pymnt', 'total_rec_prncp',
                'total_rec_late_fee', 'acc_now_delinq', 'loan_to_income',
-               'total_interest', 'loan_performance', 'repayment_rate', 'loan_status']
+               'total_interest', 'loan_performance', 'repayment_rate', 'dti_month', 'loan_status']
 
     df_indv = df_indv[columns]
 
