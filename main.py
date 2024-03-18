@@ -16,6 +16,10 @@ from sklearn.model_selection import StratifiedShuffleSplit
 
 
 def get_data():
+    """
+    Load the source data and unzip
+    :return: unprocessed data
+    """
     os.environ['KAGGLE_USERNAME'] = 'furkanyel'
     os.environ['KAGGLE_KEY'] = '854a1d21e333a19a0ea49b3eae8ac61b'
 
@@ -39,12 +43,23 @@ def get_data():
 
 
 def data_pipeline():
+    """
+    Load the data and preprocess it
+    :return: preprocessed data
+    """
     data = get_data()
     out = preprocess_data(data)
     return out
 
 
 def prepare_split(data, test_size=0.6):
+    """
+    Split the dataset into train, val and test sets
+    :param data: preprocessed dataframe
+    :param test_size: choose test size (default=0.6)
+    :return: X_train, X_test, y_train, y_test and eval set (X_val, y_val)
+    """
+
     X = data.drop('loan_status', axis=1)
     y = data['loan_status']
     # Instantiate StratifiedShuffleSplit with n_splits=1
@@ -66,6 +81,10 @@ def prepare_split(data, test_size=0.6):
 
 
 def set_model():
+    """
+    Sets up the xgboost model classifier
+    :return: xgboost classifier
+    """
     clf = xgb.sklearn.XGBClassifier(
         objective="binary:logistic",
         seed=7777,
@@ -75,6 +94,10 @@ def set_model():
 
 
 def set_param_space():
+    """
+    Sets up the parameter space for the bayessearchCV
+    :return: parameter space
+    """
     param_space = {
         "learning_rate": [0.01, 0.03, 0.04, 0.05, 0.1],
         "max_depth": [5, 7, 8, 9, 10],
@@ -87,6 +110,13 @@ def set_param_space():
 
 
 def model_tuning(X_train, y_train, eval_set):
+    """
+    Trains the xgboost model with bayessearchCV
+    :param X_train: trainings data
+    :param y_train: trainings target column
+    :param eval_set: X_val and y_val sets
+    :return: fitted BayesSearchCV
+    """
     clf = set_model()
     param_space = set_param_space()
 
@@ -101,6 +131,14 @@ def model_tuning(X_train, y_train, eval_set):
 
 
 def mlflow_logging(bayes_search, X_test, y_test):
+    """
+    Logs the training params, best_train auc , test auc, feature importance, dataset
+    and xgboost model
+    :param bayes_search: fitted BayesSearchCV
+    :param X_test: test data
+    :param y_test: test target data
+    :return: nothing
+    """
     # Log parameters
     for param, value in bayes_search.best_params_.items():
         mlflow.log_param(param, value)
@@ -122,10 +160,12 @@ def mlflow_logging(bayes_search, X_test, y_test):
     mlflow.xgboost.log_model(bayes_search.best_estimator_, "xgboost_model")
 
 
-if __name__ == '__main__':
+def run_experiment():
     processed_data = data_pipeline()
-    # X_train, X_test, y_train, y_test, eval_set = prepare_split(processed_data, 0.6)
-    # clf = set_model()
-    # param_space = set_param_space()
-    # model = model_tuning(X_train, y_train, eval_set)
-    # mlflow_logging(model, X_test, y_test)
+    X_train, X_test, y_train, y_test, eval_set = prepare_split(processed_data, 0.6)
+    model = model_tuning(X_train, y_train, eval_set)
+    mlflow_logging(model, X_test, y_test)
+
+
+if __name__ == '__main__':
+    run_experiment()

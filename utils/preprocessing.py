@@ -3,7 +3,15 @@ from utils.log import LOGGER
 import category_encoders as ce
 
 def preprocess_data(df):
+    import warnings
 
+    # Ignore all warnings
+    warnings.filterwarnings("ignore")
+
+    # Or, ignore just the SettingWithCopyWarning
+    warnings.filterwarnings("ignore", message="A value is trying to be set on a copy of a slice from a DataFrame")
+
+    # Your code here
     # Filter for individual applications
     df_indv = df[df["application_type"] != "JOINT"]
 
