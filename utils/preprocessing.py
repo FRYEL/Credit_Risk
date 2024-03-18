@@ -1,9 +1,15 @@
 import numpy as np
 from utils.log import LOGGER
 import category_encoders as ce
+import warnings
+
 
 def preprocess_data(df):
-    import warnings
+    """
+    Preprocesses the raw source data
+    :param df: unprocessed dataframe
+    :return: processed dataframe
+    """
 
     # Ignore all warnings
     warnings.filterwarnings("ignore")
@@ -11,7 +17,6 @@ def preprocess_data(df):
     # Or, ignore just the SettingWithCopyWarning
     warnings.filterwarnings("ignore", message="A value is trying to be set on a copy of a slice from a DataFrame")
 
-    # Your code here
     # Filter for individual applications
     df_indv = df[df["application_type"] != "JOINT"]
 
@@ -30,6 +35,7 @@ def preprocess_data(df):
 
     LOGGER.info("Preprocessing data...")
 
+    # employment
     emp_length_map = {
         '10+ years': 11,
         '< 1 year': 0,
@@ -47,6 +53,7 @@ def preprocess_data(df):
 
     df_indv['emp_length'] = df_indv['emp_length'].map(emp_length_map)
 
+    # grades and subgrades
     grades = {
         'A': 1,
         'B': 2,
@@ -98,6 +105,7 @@ def preprocess_data(df):
     df_indv['sub_grade'] = df_indv['sub_grade'].map(subgrades)
     df_indv['term'] = df_indv['term'].str.extract('(\d+)').astype(int)
 
+    # homeownership
     homeownership = {
         'ANY': 0,
         'MORTGAGE': -1,
@@ -109,6 +117,7 @@ def preprocess_data(df):
 
     df_indv['home_ownership'] = df_indv['home_ownership'].map(homeownership)
 
+    # verification
     verification = {
         'Not Verified': -1,
         'Source Verified': 1,
@@ -117,6 +126,7 @@ def preprocess_data(df):
 
     df_indv['verification_status'] = df_indv['verification_status'].map(verification)
 
+    # loan_status
     l_stat = {
         'Charged Off': 1,
         'Default': 1,
@@ -146,18 +156,24 @@ def preprocess_data(df):
 
     LOGGER.info('Feature engineering in progress...')
 
+    # loan to income
     df_indv['loan_to_income'] = round(df_indv['funded_amnt'] / df_indv['annual_inc'], 2)
     df_indv['loan_to_income'].replace(np.inf, 2, inplace=True)
 
+    # total interest
     df_indv['total_interest'] = round((df_indv['term'] / 12) * df_indv['loan_amnt'] * (df_indv['int_rate'] / 100), 2)
 
+    # loan performance
     df_indv['loan_performance'] = round(df_indv['total_pymnt'] - df_indv['funded_amnt'], 2)
 
+    # repayment rate
     df_indv['repayment_rate'] = round(df_indv['total_pymnt'] / df_indv['funded_amnt'], 2)
 
-    df_indv['dti_month'] = round(df_indv['installment'] / (df_indv['annual_inc'] / 12),3)
+    # debt-to-income ratio monthly
+    df_indv['dti_month'] = round(df_indv['installment'] / (df_indv['annual_inc'] / 12), 3)
 
-    columns = [ 'loan_amnt', 'funded_amnt', 'term', 'int_rate',
+    # format column order
+    columns = ['loan_amnt', 'funded_amnt', 'term', 'int_rate',
                'installment', 'grade', 'sub_grade', 'emp_length', 'home_ownership',
                'annual_inc', 'verification_status', 'purpose', 'addr_state', 'dti',
                'delinq_2yrs', 'mths_since_last_delinq',
@@ -172,5 +188,3 @@ def preprocess_data(df):
 
     LOGGER.info("Preprocessing finished!")
     return df_indv
-
-

@@ -1,5 +1,6 @@
 """
-Prediction of loan default probabilities with xGBoost and BayesSearchCV for param tuning
+main.py file to train a xgboost model, to predict loan default probabilities.
+:dependencies: preprocessing.py in utils
 """
 
 import os
@@ -161,6 +162,10 @@ def mlflow_logging(bayes_search, X_test, y_test):
 
 
 def run_experiment():
+    """
+    Run the experiment to train a xgboost model for loan default prediction
+    :return:
+    """
     processed_data = data_pipeline()
     X_train, X_test, y_train, y_test, eval_set = prepare_split(processed_data, 0.6)
     model = model_tuning(X_train, y_train, eval_set)
