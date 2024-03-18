@@ -109,6 +109,7 @@ def set_mlflow_uri():
     experiment_name = "XGBoost_Hyperparameter_Tuning"
     mlflow.set_tracking_uri("http://127.0.0.1:5000")
     mlflow.set_experiment(experiment_name)
+    LOGGER.info(f'Setting mlflow uri for {experiment_name}...')
 
 
 def set_model():
