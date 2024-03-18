@@ -88,12 +88,13 @@ def prepare_split(data, test_size=0.6):
     y = data['loan_status']
     # Instantiate StratifiedShuffleSplit with n_splits=1
     sss = StratifiedShuffleSplit(n_splits=1, test_size=test_size, random_state=42)
-
+    LOGGER.info('Splitting data with StratifiedShuffleSplit...')
     # Split data into train and test
     train_index, test_index = next(sss.split(X, y))
     X_train, X_test = X.iloc[train_index], X.iloc[test_index]
     y_train, y_test = y.iloc[train_index], y.iloc[test_index]
 
+    LOGGER.info('Getting test, train and validation sets...')
     # Further split test data into validation and test
     sss_val_test = StratifiedShuffleSplit(n_splits=1, test_size=0.5, random_state=42)
     val_index, test_index = next(sss_val_test.split(X_test, y_test))
@@ -102,6 +103,12 @@ def prepare_split(data, test_size=0.6):
 
     eval_set = [(X_val, y_val)]
     return X_train, X_test, y_train, y_test, eval_set
+
+
+def set_mlflow_uri():
+    experiment_name = "XGBoost_Hyperparameter_Tuning"
+    mlflow.set_tracking_uri("http://127.0.0.1:5000")
+    mlflow.set_experiment(experiment_name)
 
 
 def set_model():
@@ -123,12 +130,12 @@ def set_param_space():
     :return: parameter space
     """
     param_space = {
-        "learning_rate": [0.01, 0.03, 0.04, 0.05, 0.1],
-        "max_depth": [5, 7, 8, 9, 10],
+        "learning_rate": [0.01, 0.03, 0.04, 0.05, 0.1, 0.35, 0.5],
+        "max_depth": [2, 4, 6, 8, 10],
         "subsample": [0.7, 0.8, 0.9],
         "colsample_bytree": [0.7, 0.8, 0.9],
-        "gamma": [0.5, 0.75, 1],
-        "n_estimators": [300, 400, 500]
+        "gamma": [0.25, 0.5, 0.75, 1],
+        "n_estimators": [200, 400, 450, 500]
     }
     return param_space
 
@@ -145,10 +152,11 @@ def model_tuning(X_train, y_train, eval_set):
     param_space = set_param_space()
 
     bayes_search = BayesSearchCV(clf, search_spaces=param_space,
-                                 n_iter=100, scoring='roc_auc',
-                                 cv=5, verbose=1,
+                                 n_iter=150, scoring='roc_auc',
+                                 cv=10, verbose=1,
                                  n_jobs=-1)
     with mlflow.start_run():
+        LOGGER.info('initiating BayesSearchCV...')
         bayes_search.fit(X_train, y_train, eval_set=eval_set, verbose=True)
 
     return bayes_search
@@ -215,6 +223,8 @@ def mlflow_logging(bayes_search, X_test, y_test):
     # Log dataset
     mlflow.log_artifact('../data/cleaned_data.csv', artifact_path='datasets')
     mlflow.xgboost.log_model(bayes_search.best_estimator_, "xgboost_model")
+    LOGGER.info('Run Completed...')
+    mlflow.end_run()
 
 
 def run_experiment():
@@ -226,11 +236,12 @@ def run_experiment():
     # SET TRUE OR FALSE TO USE runtime_split TO REDUCE INITIAL DATASET
     reduce_data = True
     if reduce_data:
+        LOGGER.info('Processed data is split for performance...')
         reduced_dataset = runtime_split(processed_data, 0.3)
         X_train, X_test, y_train, y_test, eval_set = prepare_split(reduced_dataset, 0.6)
     else:
         X_train, X_test, y_train, y_test, eval_set = prepare_split(processed_data, 0.6)
-
+    set_mlflow_uri()
     model = model_tuning(X_train, y_train, eval_set)
     mlflow_logging(model, X_test, y_test)
     create_plots(model, X_train, y_train, X_test, y_test)
