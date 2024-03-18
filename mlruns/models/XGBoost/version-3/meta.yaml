@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1710790848416
+current_stage: None
+description: ''
+last_updated_timestamp: 1710790848416
+name: XGBoost
+run_id: c8a52693377445398f6599a11cffa3a2
+run_link: ''
+source: file:///C:/Users/furka/PycharmProjects/Credit_Risk/mlruns/389901588864882854/c8a52693377445398f6599a11cffa3a2/artifacts/xgboost_model
+status: READY
+status_message: null
+storage_location: file:///C:/Users/furka/PycharmProjects/Credit_Risk/mlruns/389901588864882854/c8a52693377445398f6599a11cffa3a2/artifacts/xgboost_model
+user_id: null
+version: 3

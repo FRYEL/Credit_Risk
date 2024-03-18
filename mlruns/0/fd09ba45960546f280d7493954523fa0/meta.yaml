@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/furka/PycharmProjects/Credit_Risk/mlruns/0/fd09ba45960546f280d7493954523fa0/artifacts
+end_time: 1710789977985
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: fd09ba45960546f280d7493954523fa0
+run_name: caring-finch-528
+run_uuid: fd09ba45960546f280d7493954523fa0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1710789940819
+status: 4
+tags: []
+user_id: furka

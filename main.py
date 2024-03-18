@@ -153,7 +153,7 @@ def model_tuning(X_train, y_train, eval_set):
     param_space = set_param_space()
 
     bayes_search = BayesSearchCV(clf, search_spaces=param_space,
-                                 n_iter=150, scoring='roc_auc',
+                                 n_iter=200, scoring='roc_auc',
                                  cv=10, verbose=1,
                                  n_jobs=-1)
     with mlflow.start_run():
@@ -222,7 +222,7 @@ def mlflow_logging(bayes_search, X_test, y_test):
         mlflow.log_metric(f"feature_{i}_importance", importance)
 
     # Log dataset
-    mlflow.log_artifact('../data/cleaned_data.csv', artifact_path='datasets')
+    mlflow.log_artifact('./data/cleaned_data.csv', artifact_path='datasets')
     mlflow.xgboost.log_model(bayes_search.best_estimator_, "xgboost_model")
     LOGGER.info('Run Completed...')
     mlflow.end_run()

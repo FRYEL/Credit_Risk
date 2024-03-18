@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/furka/PycharmProjects/Credit_Risk/mlruns/389901588864882854/28c5966eb96d425b841bc8d61ff97c9f/artifacts
+end_time: 1710794386882
+entry_point_name: ''
+experiment_id: '389901588864882854'
+lifecycle_stage: active
+run_id: 28c5966eb96d425b841bc8d61ff97c9f
+run_name: nervous-jay-849
+run_uuid: 28c5966eb96d425b841bc8d61ff97c9f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1710794385284
+status: 3
+tags: []
+user_id: furka
