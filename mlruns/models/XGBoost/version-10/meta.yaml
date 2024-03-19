@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1710886226699
+current_stage: None
+description: ''
+last_updated_timestamp: 1710886226699
+name: XGBoost
+run_id: 8567bfc2b6e2449f8750edd3c7593542
+run_link: ''
+source: mlflow-artifacts:/433857685802828484/8567bfc2b6e2449f8750edd3c7593542/artifacts/xgboost_model
+status: READY
+status_message: null
+storage_location: mlflow-artifacts:/433857685802828484/8567bfc2b6e2449f8750edd3c7593542/artifacts/xgboost_model
+user_id: null
+version: 10

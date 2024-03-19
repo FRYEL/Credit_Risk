@@ -106,7 +106,7 @@ def prepare_split(data, test_size=0.6):
 
 
 def set_mlflow_uri():
-    experiment_name = "XGBoost_Bayes_HT"
+    experiment_name = "XGBoost_Bayes_Mac"
     mlflow.set_tracking_uri("http://127.0.0.1:5000")
     mlflow.set_experiment(experiment_name)
     LOGGER.info(f'Setting mlflow uri for {experiment_name}...')
@@ -256,12 +256,12 @@ def run_experiment():
     if reduce_data:
         LOGGER.info('Processed data is split for performance...')
 
-        reduced_dataset = runtime_split(processed_data, 0.1)
+        reduced_dataset = runtime_split(processed_data, 0.01)
         X_train, X_test, y_train, y_test, eval_set, test_size = prepare_split(reduced_dataset, 0.6)
     else:
         X_train, X_test, y_train, y_test, eval_set, test_size = prepare_split(processed_data, 0.6)
     set_mlflow_uri()
-    model = model_tuning(X_train, y_train, eval_set, iterations=100, cv=5)
+    model = model_tuning(X_train, y_train, eval_set, iterations=10, cv=5)
     mlflow_logging(model, X_test, y_test, test_size)
     create_plots(model, X_train, y_train, X_test, y_test)
 
