@@ -102,11 +102,11 @@ def prepare_split(data, test_size=0.6):
     y_val, y_test = y_test.iloc[val_index], y_test.iloc[test_index]
 
     eval_set = [(X_val, y_val)]
-    return X_train, X_test, y_train, y_test, eval_set
+    return X_train, X_test, y_train, y_test, eval_set, test_size
 
 
 def set_mlflow_uri():
-    experiment_name = "XGBoost_Hyperparameter_Tuning"
+    experiment_name = "XGBoost_Bayes_HT"
     mlflow.set_tracking_uri("http://127.0.0.1:5000")
     mlflow.set_experiment(experiment_name)
     LOGGER.info(f'Setting mlflow uri for {experiment_name}...')
@@ -141,9 +141,11 @@ def set_param_space():
     return param_space
 
 
-def model_tuning(X_train, y_train, eval_set):
+def model_tuning(X_train, y_train, eval_set, iterations=100, cv=5):
     """
     Trains the xgboost model with bayessearchCV
+    :param cv: value for cross validation, defaults to 5
+    :param iterations: value of iterations for bayes search, defaults to 100
     :param X_train: trainings data
     :param y_train: trainings target column
     :param eval_set: X_val and y_val sets
@@ -153,12 +155,14 @@ def model_tuning(X_train, y_train, eval_set):
     param_space = set_param_space()
 
     bayes_search = BayesSearchCV(clf, search_spaces=param_space,
-                                 n_iter=200, scoring='roc_auc',
-                                 cv=10, verbose=1,
+                                 n_iter=iterations, scoring='roc_auc',
+                                 cv=cv, verbose=1,
                                  n_jobs=-1)
     with mlflow.start_run():
         LOGGER.info('initiating BayesSearchCV...')
         bayes_search.fit(X_train, y_train, eval_set=eval_set, verbose=True)
+
+    mlflow.xgboost.log_model(bayes_search.best_estimator_, "xgboost_model")
 
     return bayes_search
 
@@ -194,12 +198,18 @@ def create_plots(bayes_search, X_train, y_train, X_test, y_test):
     plt.title('ROC Curve for Best Model')
     plt.legend()
     plt.show()
+    plot_path = "best_roc_curve_plot.png"
+    plt.savefig(plot_path)
+
+    # Log plot as artifact in MLflow
+    mlflow.log_artifact(plot_path, "plots")
 
 
-def mlflow_logging(bayes_search, X_test, y_test):
+def mlflow_logging(bayes_search, X_test, y_test, test_size):
     """
     Logs the training params, best_train auc , test auc, feature importance, dataset
     and xgboost model
+    :param test_size: test size of the split
     :param bayes_search: fitted BayesSearchCV
     :param X_test: test data
     :param y_test: test target data
@@ -208,6 +218,9 @@ def mlflow_logging(bayes_search, X_test, y_test):
     # Log parameters
     for param, value in bayes_search.best_params_.items():
         mlflow.log_param(param, value)
+
+    split_ratio = f"train_size={1 - test_size}, test_size={test_size / 2}, val_size={test_size / 2}"
+    mlflow.log_param("split_ratio", split_ratio)
 
     # Log metrics
     mlflow.log_metric("best_roc_auc", bayes_search.best_score_)
@@ -222,10 +235,8 @@ def mlflow_logging(bayes_search, X_test, y_test):
         mlflow.log_metric(f"feature_{i}_importance", importance)
 
     # Log dataset
-    mlflow.log_artifact('./data/cleaned_data.csv', artifact_path='datasets')
-    mlflow.xgboost.log_model(bayes_search.best_estimator_, "xgboost_model")
+    mlflow.log_artifact("./data/cleaned_data.csv")
     LOGGER.info('Run Completed...')
-    mlflow.end_run()
 
 
 def run_experiment():
@@ -238,13 +249,14 @@ def run_experiment():
     reduce_data = True
     if reduce_data:
         LOGGER.info('Processed data is split for performance...')
-        reduced_dataset = runtime_split(processed_data, 0.3)
-        X_train, X_test, y_train, y_test, eval_set = prepare_split(reduced_dataset, 0.6)
+
+        reduced_dataset = runtime_split(processed_data, 0.05)
+        X_train, X_test, y_train, y_test, eval_set, test_size = prepare_split(reduced_dataset, 0.6)
     else:
-        X_train, X_test, y_train, y_test, eval_set = prepare_split(processed_data, 0.6)
+        X_train, X_test, y_train, y_test, eval_set, test_size = prepare_split(processed_data, 0.6)
     set_mlflow_uri()
-    model = model_tuning(X_train, y_train, eval_set)
-    mlflow_logging(model, X_test, y_test)
+    model = model_tuning(X_train, y_train, eval_set, iterations=10, cv=5)
+    mlflow_logging(model, X_test, y_test, test_size)
     create_plots(model, X_train, y_train, X_test, y_test)
 
 

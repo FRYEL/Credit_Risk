@@ -8,7 +8,7 @@ import mlflow.xgboost
 import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve
 
-df = pd.read_csv('data/cleaned_data.csv', low_memory=False)
+df = pd.read_csv('../data/cleaned_data.csv', low_memory=False)
 
 # Generate synthetic dataset for demonstration
 X = df.drop(columns=['loan_status'])
@@ -69,7 +69,7 @@ with mlflow.start_run():
         mlflow.log_metric(f"feature_{i}_importance", importance)
 
     # Log dataset
-    mlflow.log_artifact('data/cleaned_data.csv', artifact_path='datasets')
+    mlflow.log_artifact('../data/cleaned_data.csv', artifact_path='datasets')
 
     # Log model
     mlflow.xgboost.log_model(bayes_search.best_estimator_, "xgboost_model")

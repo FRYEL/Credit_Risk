@@ -4,11 +4,8 @@ from sklearn.model_selection import train_test_split, RandomizedSearchCV
 from sklearn.metrics import roc_auc_score
 import mlflow
 import mlflow.xgboost
-import seaborn as sns
-import matplotlib.pyplot as plt
 
-# Read data
-df = pd.read_csv('data/cleaned_data.csv', low_memory=False)
+df = pd.read_csv('../data/cleaned_data.csv', low_memory=False)
 
 # Generate synthetic dataset for demonstration
 X = df.drop(columns=['loan_status'])
@@ -35,21 +32,20 @@ clf = xgb.sklearn.XGBClassifier(
     early_stopping_rounds=20,
     eval_metric='auc')
 
-#clf.fit(X_train, y_train, eval_set=eval_set, verbose=True)
+clf.fit(X_train, y_train, eval_set=eval_set, verbose=True)
 
 # Define parameter grid for RandomizedSearchCV
 param_grid = {
-    "learning_rate": [0.01, 0.05, 0.1, 0.2, 0.5],
-    "max_depth": [3, 5, 7, 10],
-    "subsample": [0.7, 0.8, 0.9],
-    "colsample_bytree": [0.7, 0.8, 0.9],
-    "gamma": [0, 0.1, 0.5, 1],
-    "n_estimators": [100, 200, 300, 400, 500]
+    "learning_rate": [0.01, 0.05, 0.1],
+    "max_depth": [3, 5, 7],
+    "subsample": [0.5, 0.7, 0.9],
+    "colsample_bytree": [0.5, 0.7, 0.9],
+    "gamma": [0, 1, 5],
+    "n_estimators": [100, 200, 300]
 }
 
-
 # Define RandomizedSearchCV with ROC AUC as scoring metric
-random_search = RandomizedSearchCV(clf, param_distributions=param_grid, n_iter=300, scoring='roc_auc', cv=7, verbose=1,
+random_search = RandomizedSearchCV(clf, param_distributions=param_grid, n_iter=150, scoring='roc_auc', cv=5, verbose=1,
                                    n_jobs=-1)
 
 # Perform RandomizedSearchCV
@@ -68,26 +64,5 @@ with mlflow.start_run():
     test_roc_auc = roc_auc_score(y_test, y_pred_proba)
     mlflow.log_metric("test_roc_auc", test_roc_auc)
 
-    # Log feature importance
-    feature_importance = random_search.best_estimator_.feature_importances_
-    for i, importance in enumerate(feature_importance):
-        mlflow.log_metric(f"feature_{i}_importance", importance)
-
-    # Log dataset
-    mlflow.log_artifact('data/cleaned_data.csv', artifact_path='datasets')
-
-    # Plot hyperparameter tuning results
-    tuning_results = pd.DataFrame(random_search.cv_results_)
-    sns.lineplot(x='param_learning_rate', y='mean_test_score', data=tuning_results)
-    plt.xlabel('Learning Rate')
-    plt.ylabel('Mean Test Score')
-    plt.title('Mean Test Score vs Learning Rate')
-    plt.savefig('tuning_results.png')
-    # Log the plot
-    mlflow.log_artifact('Plots/tuning_results.png', artifact_path='visualizations')
-
     # Log model
     mlflow.xgboost.log_model(random_search.best_estimator_, "xgboost_model")
-
-    # Log experiment details or metrics
-    mlflow.end_run()
