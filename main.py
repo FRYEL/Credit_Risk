@@ -138,7 +138,17 @@ def set_param_space():
         "gamma": [0, 0.25, 0.5, 0.75, 1],
         "n_estimators": [100, 200, 300, 400, 450, 500]
     }
-    return param_space
+
+    param_space_2 = {
+        "learning_rate": [0.1],
+        "max_depth": [10],
+        "subsample": [0.9],
+        "colsample_bytree": [0.7],
+        "gamma": [0.5],
+        "n_estimators": [450]
+    }
+
+    return param_space, param_space_2
 
 
 def model_tuning(X_train, y_train, eval_set, iterations=100, cv=5):
@@ -152,11 +162,11 @@ def model_tuning(X_train, y_train, eval_set, iterations=100, cv=5):
     :return: fitted BayesSearchCV
     """
     clf = set_model()
-    param_space = set_param_space()
+    param_space, param_space_2 = set_param_space()
 
     mlflow.start_run()
     LOGGER.info('initiating BayesSearchCV...')
-    bayes_search = BayesSearchCV(clf, search_spaces=param_space,
+    bayes_search = BayesSearchCV(clf, search_spaces=param_space_2,
                                  n_iter=iterations, scoring='roc_auc',
                                  cv=cv, verbose=1,
                                  n_jobs=-1)
@@ -199,11 +209,6 @@ def create_plots(bayes_search, X_train, y_train, X_test, y_test):
     plt.title('ROC Curve for Best Model')
     plt.legend()
     plt.show()
-    plot_path = "best_roc_curve_plot.png"
-    plt.savefig(plot_path)
-
-    # Log plot as artifact in MLflow
-    mlflow.log_artifact(plot_path, "plots")
 
 
 def mlflow_logging(bayes_search, X_test, y_test, test_size):
