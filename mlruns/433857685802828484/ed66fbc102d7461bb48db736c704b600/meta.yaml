@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/433857685802828484/ed66fbc102d7461bb48db736c704b600/artifacts
+deleted_time: 1710841879275
+end_time: 1710841726319
+entry_point_name: ''
+experiment_id: '433857685802828484'
+lifecycle_stage: deleted
+run_id: ed66fbc102d7461bb48db736c704b600
+run_name: fortunate-finch-880
+run_uuid: ed66fbc102d7461bb48db736c704b600
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1710841720871
+status: 3
+tags: []
+user_id: yelf

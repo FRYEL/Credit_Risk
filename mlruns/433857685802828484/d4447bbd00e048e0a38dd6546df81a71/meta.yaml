@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/433857685802828484/d4447bbd00e048e0a38dd6546df81a71/artifacts
+deleted_time: 1710841879274
+end_time: 1710841447688
+entry_point_name: ''
+experiment_id: '433857685802828484'
+lifecycle_stage: deleted
+run_id: d4447bbd00e048e0a38dd6546df81a71
+run_name: burly-newt-137
+run_uuid: d4447bbd00e048e0a38dd6546df81a71
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1710841439725
+status: 3
+tags: []
+user_id: yelf

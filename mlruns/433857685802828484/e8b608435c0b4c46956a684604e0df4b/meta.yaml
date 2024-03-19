@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/433857685802828484/e8b608435c0b4c46956a684604e0df4b/artifacts
+deleted_time: 1710841879276
+end_time: 1710841439710
+entry_point_name: ''
+experiment_id: '433857685802828484'
+lifecycle_stage: deleted
+run_id: e8b608435c0b4c46956a684604e0df4b
+run_name: hilarious-hog-585
+run_uuid: e8b608435c0b4c46956a684604e0df4b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1710841428091
+status: 3
+tags: []
+user_id: yelf

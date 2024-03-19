@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/433857685802828484/ef30c17af3504b49b5b31aa8e1a97839/artifacts
+deleted_time: 1710841879279
+end_time: 1710841720867
+entry_point_name: ''
+experiment_id: '433857685802828484'
+lifecycle_stage: deleted
+run_id: ef30c17af3504b49b5b31aa8e1a97839
+run_name: sassy-cat-568
+run_uuid: ef30c17af3504b49b5b31aa8e1a97839
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1710841701341
+status: 3
+tags: []
+user_id: yelf
