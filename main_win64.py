@@ -131,11 +131,11 @@ def set_param_space():
     :return: parameter space
     """
     param_space = {
-        "learning_rate": [0.01, 0.03, 0.04, 0.05, 0.1, 0.25, 0.35, 0.5],
+        "learning_rate": [0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.15, 0.2, 0.25, 0.35, 0.4, 0.5],
         "max_depth": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         "subsample": [0.7, 0.8, 0.9],
         "colsample_bytree": [0.7, 0.8, 0.9],
-        "gamma": [0, 0.25, 0.5, 0.75, 1],
+        "gamma": [0, 0.1, 0.25, 0.45, 0.5, 0.65, 0.75, 1],
         "n_estimators": [100, 200, 300, 400, 450, 500]
     }
 
@@ -252,16 +252,16 @@ def run_experiment():
     """
     processed_data = data_pipeline()
     # SET TRUE OR FALSE TO USE runtime_split TO REDUCE INITIAL DATASET
-    reduce_data = True
+    reduce_data = False
     if reduce_data:
         LOGGER.info('Processed data is split for performance...')
 
         reduced_dataset = runtime_split(processed_data, 0.01)
-        X_train, X_test, y_train, y_test, eval_set, test_size = prepare_split(reduced_dataset, 0.6)
+        X_train, X_test, y_train, y_test, eval_set, test_size = prepare_split(reduced_dataset, 0.5)
     else:
-        X_train, X_test, y_train, y_test, eval_set, test_size = prepare_split(processed_data, 0.6)
+        X_train, X_test, y_train, y_test, eval_set, test_size = prepare_split(processed_data, 0.5)
     set_mlflow_uri()
-    model = model_tuning(X_train, y_train, eval_set, iterations=10, cv=5)
+    model = model_tuning(X_train, y_train, eval_set, iterations=300, cv=15)
     mlflow_logging(model, X_test, y_test, test_size)
     create_plots(model, X_train, y_train, X_test, y_test)
 

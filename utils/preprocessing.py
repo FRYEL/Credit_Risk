@@ -171,7 +171,7 @@ def preprocess_data(df):
 
     # debt-to-income ratio monthly
     df_indv['dti_month'] = round(df_indv['installment'] / (df_indv['annual_inc'] / 12), 3)
-
+    df_indv['dti_month'].replace(np.inf, 1, inplace=True)
     # format column order
     columns = ['loan_amnt', 'funded_amnt', 'term', 'int_rate',
                'installment', 'grade', 'sub_grade', 'emp_length', 'home_ownership',
