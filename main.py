@@ -166,7 +166,7 @@ def model_tuning(X_train, y_train, eval_set, iterations=100, cv=5):
 
     mlflow.start_run()
     LOGGER.info('initiating BayesSearchCV...')
-    bayes_search = BayesSearchCV(clf, search_spaces=param_space_2,
+    bayes_search = BayesSearchCV(clf, search_spaces=param_space,
                                  n_iter=iterations, scoring='roc_auc',
                                  cv=cv, verbose=1,
                                  n_jobs=-1)
