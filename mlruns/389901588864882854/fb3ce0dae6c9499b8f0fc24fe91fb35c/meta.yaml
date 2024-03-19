@@ -1,0 +1,16 @@
+artifact_uri: file:///C:/Users/furka/PycharmProjects/Credit_Risk/mlruns/389901588864882854/fb3ce0dae6c9499b8f0fc24fe91fb35c/artifacts
+deleted_time: 1710838839844
+end_time: 1710838673399
+entry_point_name: ''
+experiment_id: '389901588864882854'
+lifecycle_stage: deleted
+run_id: fb3ce0dae6c9499b8f0fc24fe91fb35c
+run_name: aged-worm-517
+run_uuid: fb3ce0dae6c9499b8f0fc24fe91fb35c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1710838658100
+status: 3
+tags: []
+user_id: yelf

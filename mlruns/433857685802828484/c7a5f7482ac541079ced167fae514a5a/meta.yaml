@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/433857685802828484/c7a5f7482ac541079ced167fae514a5a/artifacts
+end_time: 1710839944933
+entry_point_name: ''
+experiment_id: '433857685802828484'
+lifecycle_stage: active
+run_id: c7a5f7482ac541079ced167fae514a5a
+run_name: abrasive-ram-32
+run_uuid: c7a5f7482ac541079ced167fae514a5a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1710839928814
+status: 3
+tags: []
+user_id: yelf
