@@ -1,8 +1,9 @@
 artifact_uri: mlflow-artifacts:/433857685802828484/c7a5f7482ac541079ced167fae514a5a/artifacts
+deleted_time: 1710841336232
 end_time: 1710839944933
 entry_point_name: ''
 experiment_id: '433857685802828484'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: c7a5f7482ac541079ced167fae514a5a
 run_name: abrasive-ram-32
 run_uuid: c7a5f7482ac541079ced167fae514a5a
