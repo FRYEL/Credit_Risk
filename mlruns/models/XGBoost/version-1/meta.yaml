@@ -1,8 +1,8 @@
 aliases: []
 creation_timestamp: 1710681634558
 current_stage: None
-description: ''
-last_updated_timestamp: 1710681634558
+description: Invalid run no val set
+last_updated_timestamp: 1710933353464
 name: XGBoost
 run_id: 4cc4c863f3a4487fb5c7e67b0c7e9bc7
 run_link: ''
