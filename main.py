@@ -178,7 +178,7 @@ def model_tuning(X_train, y_train, eval_set, iterations=100, cv=5):
     return bayes_search
 
 
-def create_plots(bayes_search, X_train, y_train, X_test, y_test):
+def create_plots(bayes_search, X_train, y_train, X_test, y_test, processed_data):
     """
     Creates the ROC AUC curve plot
     :param bayes_search: fitted BayesSearchCV
@@ -208,6 +208,20 @@ def create_plots(bayes_search, X_train, y_train, X_test, y_test):
     plt.ylabel('True Positive Rate')
     plt.title('ROC Curve for Best Model')
     plt.legend()
+    plt.show()
+
+    # -------------------------------Plot 2
+    X = processed_data.drop('loan_status', axis=1)
+
+    # Plot feature importance
+    feature_importance = bayes_search.best_estimator_.feature_importances_
+    plt.figure(figsize=(60, 6))
+    plt.bar(range(len(feature_importance)), feature_importance, tick_label=X.columns)
+    plt.xlabel('Feature')
+    plt.ylabel('Importance')
+    plt.title('Feature Importance')
+
+    # Close plot
     plt.show()
 
 
@@ -263,7 +277,7 @@ def run_experiment():
     set_mlflow_uri()
     model = model_tuning(X_train, y_train, eval_set, iterations=10, cv=5)
     mlflow_logging(model, X_test, y_test, test_size)
-    create_plots(model, X_train, y_train, X_test, y_test)
+    create_plots(model, X_train, y_train, X_test, y_test, processed_data)
 
 
 if __name__ == '__main__':
