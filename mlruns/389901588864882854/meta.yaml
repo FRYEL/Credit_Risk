@@ -1,6 +1,0 @@
-artifact_location: file:///C:/Users/furka/PycharmProjects/Credit_Risk/mlruns/389901588864882854
-creation_time: 1710623022464
-experiment_id: '389901588864882854'
-last_update_time: 1710623022464
-lifecycle_stage: active
-name: XGBoost_Hyperparameter_Tuning
