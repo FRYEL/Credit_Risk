@@ -18,6 +18,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve
 import numpy as np
 from sklearn.model_selection import train_test_split
+from dotenv import load_dotenv
 
 
 def get_data():
@@ -25,12 +26,16 @@ def get_data():
     Load the source data and unzip
     :return: unprocessed data
     """
-    os.environ['KAGGLE_USERNAME'] = 'furkanyel'
-    os.environ['KAGGLE_KEY'] = '854a1d21e333a19a0ea49b3eae8ac61b'
+    load_dotenv(".env")
+
+    KAGGLE_USERNAME = os.getenv('KAGGLE_USERNAME')
+    KAGGLE_KEY = os.getenv('KAGGLE_KEY')
 
     from kaggle.api.kaggle_api_extended import KaggleApi
-    # Authenticate with Kaggle MAKE SURE requirements.txt ARE FULLFILLED
+
     api = KaggleApi()
+    api.authenticate()
+
     # Define the command
     LOGGER.info(f'Downloading the Dataset...')
     command = "kaggle datasets download -d ranadeep/credit-risk-dataset -p ./data"
@@ -139,16 +144,7 @@ def set_param_space():
         "n_estimators": [100, 200, 300, 400, 450, 500]
     }
 
-    param_space_2 = {
-        "learning_rate": [0.1],
-        "max_depth": [10],
-        "subsample": [0.9],
-        "colsample_bytree": [0.7],
-        "gamma": [0.5],
-        "n_estimators": [450]
-    }
-
-    return param_space, param_space_2
+    return param_space
 
 
 def model_tuning(X_train, y_train, eval_set, iterations=100, cv=5):
@@ -162,7 +158,7 @@ def model_tuning(X_train, y_train, eval_set, iterations=100, cv=5):
     :return: fitted BayesSearchCV
     """
     clf = set_model()
-    param_space, param_space_2 = set_param_space()
+    param_space = set_param_space()
 
     mlflow.start_run()
     LOGGER.info('initiating BayesSearchCV...')

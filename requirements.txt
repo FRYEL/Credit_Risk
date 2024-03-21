@@ -11,3 +11,5 @@ category-encoders~=2.6.0; sys_platform == 'win64' or sys_platform == 'win32'
 seaborn~=0.12.2
 kaggle~=1.6.6
 scikit-optimize~=0.10.1
+category_encoders~=2.6.0
+python-dotenv~=0.21.0
