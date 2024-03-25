@@ -144,10 +144,10 @@ def preprocess_data(df):
 
     LOGGER.info('Encoding categorical features...')
 
-    encoder1 = ce.CountEncoder(cols=['purpose'])
+    encoder1 = ce.TargetEncoder(cols=['purpose'])
 
     # Fit and transform the data
-    df_indv = encoder1.fit_transform(df_indv)
+    df_indv = encoder1.fit_transform(df_indv, df_indv['loan_status'])
 
     encoder2 = ce.TargetEncoder(cols=['addr_state'])
 

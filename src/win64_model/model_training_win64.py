@@ -1,5 +1,5 @@
 """
-main.py file to train a xgboost model, to predict loan default probabilities.
+Model_training.py file to train a xgboost model, to predict loan default probabilities.
 :dependencies: preprocessing.py in utils
 """
 
@@ -36,13 +36,13 @@ def get_data():
     command = "kaggle datasets download -d ranadeep/credit-risk-dataset -p ./data"
     subprocess.run(command, shell=True)
 
-    zip_file = "./data/credit-risk-dataset.zip"
+    zip_file = "../../data/credit-risk-dataset.zip"
     destination_folder = "./data"
 
     with zipfile.ZipFile(zip_file, 'r') as zip_ref:
         zip_ref.extractall(destination_folder)
 
-    unprocessed_data = pd.read_csv('./data/loan/loan.csv', low_memory=False)
+    unprocessed_data = pd.read_csv('../../data/loan/loan.csv', low_memory=False)
 
     return unprocessed_data
 
@@ -241,7 +241,7 @@ def mlflow_logging(bayes_search, X_test, y_test, test_size):
         mlflow.log_metric(f"feature_{i}_importance", importance)
 
     # Log dataset
-    mlflow.log_artifact("./data/cleaned_data.csv")
+    mlflow.log_artifact("../../data/cleaned_data.csv")
     LOGGER.info('Run Completed...')
 
 

@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 import xgboost as xgb
 
 
-def read_source():
+def get_processed_data():
     LOGGER.info('Reading data...')
-    df = pd.read_csv('data/cleaned_data.csv', low_memory=False)
+    df = pd.read_csv('../data/cleaned_data.csv', low_memory=False)
     y = df['loan_status']
     X = df.drop('loan_status', axis=1)
     return df, X, y
@@ -77,7 +77,7 @@ def feature_importance(model):
 
 
 def predict():
-    df, X, y = read_source()
+    df, X, y = get_processed_data()
     probas, preds, loaded_model = get_model_and_predict(X)
     add_save_predictions(probas, df)
     calculate_metrics(preds, y)

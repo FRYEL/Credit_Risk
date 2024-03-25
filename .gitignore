@@ -1,5 +1,6 @@
 *.csv
-Old_Notebooks/
+Notebooks/Old_Notebooks/
 loan/
 credit-risk-dataset.zip
 *.xlsx
+test_models

@@ -1,3 +1,6 @@
+"""
+Code dump for all the visualisations created
+"""
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -8,8 +11,8 @@ sns.set_palette(sns.color_palette(colors))
 
 
 # Load df
-df = pd.read_csv("data/cleaned_data.csv", low_memory=False)
-df_legacy = pd.read_csv("data/loan/loan.csv", low_memory=False)
+df = pd.read_csv("../data/cleaned_data.csv", low_memory=False)
+df_legacy = pd.read_csv("../data/loan/loan.csv", low_memory=False)
 
 # Plot interest rate distribution by loan status
 plt.figure(figsize=(10, 6))

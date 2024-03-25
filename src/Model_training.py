@@ -1,5 +1,5 @@
 """
-main.py file to train a xgboost model, to predict loan default probabilities.
+Model_training.py file to train a xgboost model, to predict loan default probabilities.
 :dependencies: preprocessing.py in utils
 """
 
@@ -26,7 +26,7 @@ def get_data():
     Load the source data and unzip
     :return: unprocessed data
     """
-    load_dotenv(".env")
+    load_dotenv("../.env")
 
     KAGGLE_USERNAME = os.getenv('KAGGLE_USERNAME')
     KAGGLE_KEY = os.getenv('KAGGLE_KEY')
@@ -41,13 +41,13 @@ def get_data():
     command = "kaggle datasets download -d ranadeep/credit-risk-dataset -p ./data"
     subprocess.run(command, shell=True)
 
-    zip_file = "./data/credit-risk-dataset.zip"
+    zip_file = "../data/credit-risk-dataset.zip"
     destination_folder = "./data"
 
     with zipfile.ZipFile(zip_file, 'r') as zip_ref:
         zip_ref.extractall(destination_folder)
 
-    unprocessed_data = pd.read_csv('./data/loan/loan.csv', low_memory=False)
+    unprocessed_data = pd.read_csv('../data/loan/loan.csv', low_memory=False)
 
     return unprocessed_data
 
@@ -251,7 +251,7 @@ def mlflow_logging(bayes_search, X_test, y_test, test_size):
         mlflow.log_metric(f"feature_{i}_importance", importance)
 
     # Log dataset
-    mlflow.log_artifact("./data/cleaned_data.csv")
+    mlflow.log_artifact("../data/cleaned_data.csv")
     LOGGER.info('Run Completed...')
 
 
@@ -267,9 +267,9 @@ def run_experiment():
         LOGGER.info('Processed data is split for performance...')
 
         reduced_dataset = runtime_split(processed_data, 0.01)
-        X_train, X_test, y_train, y_test, eval_set, test_size = prepare_split(reduced_dataset, 0.6)
+        X_train, X_test, y_train, y_test, eval_set, test_size = prepare_split(reduced_dataset, 0.5)
     else:
-        X_train, X_test, y_train, y_test, eval_set, test_size = prepare_split(processed_data, 0.6)
+        X_train, X_test, y_train, y_test, eval_set, test_size = prepare_split(processed_data, 0.5)
     set_mlflow_uri()
     model = model_tuning(X_train, y_train, eval_set, iterations=10, cv=5)
     mlflow_logging(model, X_test, y_test, test_size)
