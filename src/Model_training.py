@@ -5,6 +5,8 @@ Model_training.py file to train a xgboost model, to predict loan default probabi
 
 import os
 import subprocess
+import time
+
 from utils.log import LOGGER
 from utils.preprocessing import preprocess_data
 import zipfile
@@ -38,15 +40,16 @@ def get_data():
 
     # Define the command
     LOGGER.info(f'Downloading the Dataset...')
-    command = "kaggle datasets download -d ranadeep/credit-risk-dataset -p ./data"
+    command = "kaggle datasets download -d ranadeep/credit-risk-dataset -p ../data"
     subprocess.run(command, shell=True)
 
     zip_file = "../data/credit-risk-dataset.zip"
-    destination_folder = "./data"
+    destination_folder = "../data"
 
     with zipfile.ZipFile(zip_file, 'r') as zip_ref:
         zip_ref.extractall(destination_folder)
 
+    LOGGER.info(f'Reading the unprocessed Dataset...')
     unprocessed_data = pd.read_csv('../data/loan/loan.csv', low_memory=False)
 
     return unprocessed_data
@@ -252,7 +255,7 @@ def mlflow_logging(bayes_search, X_test, y_test, test_size):
 
     # Log dataset
     mlflow.log_artifact("../data/cleaned_data.csv")
-    LOGGER.info('Run Completed...')
+    LOGGER.info('Hyperparametertuning Completed...')
 
 
 def run_experiment():
@@ -261,6 +264,8 @@ def run_experiment():
     :return:
     """
     processed_data = data_pipeline()
+    time.sleep(5)
+    LOGGER.info("Hyperparametertuning in progress...")
     # SET TRUE OR FALSE TO USE runtime_split TO REDUCE INITIAL DATASET
     reduce_data = True
     if reduce_data:

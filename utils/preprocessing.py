@@ -33,7 +33,7 @@ def preprocess_data(df):
             df_indv[column].fillna(0, inplace=True)
     df_indv.isnull().sum()
 
-    LOGGER.info("Preprocessing data...")
+    LOGGER.info("Initializing data preprocessing...")
 
     # employment
     emp_length_map = {
@@ -184,7 +184,7 @@ def preprocess_data(df):
     df_indv = df_indv[columns]
 
     LOGGER.info('Saving preprocessed data...')
-    df_indv.to_csv("./data/cleaned_data.csv", index=False)
+    df_indv.to_csv("../data/cleaned_data.csv", index=False)
 
     LOGGER.info("Preprocessing finished!")
     return df_indv
