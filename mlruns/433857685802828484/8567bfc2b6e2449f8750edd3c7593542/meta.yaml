@@ -1,8 +1,9 @@
 artifact_uri: mlflow-artifacts:/433857685802828484/8567bfc2b6e2449f8750edd3c7593542/artifacts
+deleted_time: 1711401929038
 end_time: 1710886178029
 entry_point_name: ''
 experiment_id: '433857685802828484'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: 8567bfc2b6e2449f8750edd3c7593542
 run_name: resilient-colt-213
 run_uuid: 8567bfc2b6e2449f8750edd3c7593542

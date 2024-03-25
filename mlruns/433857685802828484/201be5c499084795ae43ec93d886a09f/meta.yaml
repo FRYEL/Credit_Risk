@@ -1,8 +1,9 @@
 artifact_uri: mlflow-artifacts:/433857685802828484/201be5c499084795ae43ec93d886a09f/artifacts
+deleted_time: 1711401929039
 end_time: 1710886287072
 entry_point_name: ''
 experiment_id: '433857685802828484'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: 201be5c499084795ae43ec93d886a09f
 run_name: stately-fawn-710
 run_uuid: 201be5c499084795ae43ec93d886a09f
