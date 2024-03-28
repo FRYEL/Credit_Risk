@@ -6,6 +6,7 @@ Model_training.py file to train a xgboost model, to predict loan default probabi
 import os
 import subprocess
 import time
+from typing import Tuple, Any, List, Dict
 
 from utils.log import LOGGER
 from utils.preprocessing import preprocess_data
@@ -23,7 +24,7 @@ from sklearn.model_selection import train_test_split
 from dotenv import load_dotenv
 
 
-def get_data():
+def get_data() -> pd.DataFrame:
     """
     Load the source data and unzip
     :return: unprocessed data
@@ -55,7 +56,7 @@ def get_data():
     return unprocessed_data
 
 
-def data_pipeline():
+def data_pipeline() -> pd.DataFrame:
     """
     Load the data and preprocess it
     :return: preprocessed data
@@ -65,7 +66,7 @@ def data_pipeline():
     return out
 
 
-def runtime_split(data, df_size):
+def runtime_split(data: pd.DataFrame, df_size: float) -> pd.DataFrame:
     """
     Reduce the size of the initial dataset for runtime improvements
     :param data: unprocessed dataset
@@ -84,7 +85,8 @@ def runtime_split(data, df_size):
     return reduced_df
 
 
-def prepare_split(data, test_size=0.6):
+def prepare_split(data: pd.DataFrame, test_size: float = 0.6) -> tuple[
+    Any, Any, Any, Any, list[tuple[Any, Any]], float]:
     """
     Split the dataset into train, val and test sets
     :param data: preprocessed dataframe
@@ -133,7 +135,7 @@ def set_model():
     return clf
 
 
-def set_param_space():
+def set_param_space() -> dict[str, list[float] | list[int] | list[int | float]]:
     """
     Sets up the parameter space for the bayessearchCV
     :return: parameter space
@@ -150,7 +152,7 @@ def set_param_space():
     return param_space
 
 
-def model_tuning(X_train, y_train, eval_set, iterations=100, cv=5):
+def model_tuning(X_train, y_train, eval_set, iterations: int = 100, cv: int = 5) -> BayesSearchCV:
     """
     Trains the xgboost model with bayessearchCV
     :param cv: value for cross validation, defaults to 5
@@ -177,9 +179,10 @@ def model_tuning(X_train, y_train, eval_set, iterations=100, cv=5):
     return bayes_search
 
 
-def create_plots(bayes_search, X_train, y_train, X_test, y_test, processed_data):
+def create_plots(bayes_search: BayesSearchCV, X_train, y_train, X_test, y_test, processed_data: pd.DataFrame):
     """
     Creates the ROC AUC curve plot
+    :param processed_data: preprocessed data
     :param bayes_search: fitted BayesSearchCV
     :param X_train: trainings data
     :param y_train: trainings target data
@@ -224,7 +227,7 @@ def create_plots(bayes_search, X_train, y_train, X_test, y_test, processed_data)
     plt.show()
 
 
-def mlflow_logging(bayes_search, X_test, y_test, test_size):
+def mlflow_logging(bayes_search: BayesSearchCV, X_test, y_test, test_size: float):
     """
     Logs the training params, best_train auc , test auc, feature importance, dataset
     and xgboost model
