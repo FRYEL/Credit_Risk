@@ -226,7 +226,6 @@ def create_plots(bayes_search: BayesSearchCV, X_train, y_train, X_test, y_test, 
     # Close plot
     plt.show()
 
-
 def mlflow_logging(bayes_search: BayesSearchCV, X_test, y_test, test_size: float):
     """
     Logs the training params, best_train auc , test auc, feature importance, dataset
