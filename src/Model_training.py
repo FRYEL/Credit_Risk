@@ -274,7 +274,7 @@ def run_experiment():
     if reduce_data:
         LOGGER.info('Processed data is split for performance...')
 
-        reduced_dataset = runtime_split(processed_data, 0.10)
+        reduced_dataset = runtime_split(processed_data, 0.05)
         X_train, X_test, y_train, y_test, eval_set, test_size = prepare_split(reduced_dataset, 0.5)
     else:
         X_train, X_test, y_train, y_test, eval_set, test_size = prepare_split(processed_data, 0.5)
