@@ -2,17 +2,17 @@
 Model_Demo.py file to demonstrate the prediction of the best trained model
 """
 import time
-from typing import Tuple, Any
-
+from typing import Any
+import seaborn as sns
 import mlflow
 import pandas as pd
-from pandas import DataFrame, Series
+from pandas import DataFrame
 from sklearn.metrics import accuracy_score, f1_score, roc_curve, classification_report, precision_recall_curve, \
-    roc_auc_score, confusion_matrix
+    roc_auc_score
 from utils.log import LOGGER
 import matplotlib.pyplot as plt
 import xgboost as xgb
-import numpy as np
+
 
 
 def get_processed_data() -> tuple[DataFrame, DataFrame, Any]:
@@ -148,6 +148,8 @@ def predict():
     probas, preds, loaded_model = get_model_and_predict(X)
     add_save_predictions(probas, df)
     calculate_metrics(probas, preds, y)
+    colors = ['#0476df', '#50b1ff', '#0458a5', '#88cbff', '#00457a', '#032a4d', '#9e9e9e', '#828282', '#0078d6']
+    sns.set_palette(sns.color_palette(colors))
     plot_roc_curve(y, probas[:, 1])
     plot_precision_recall_curve(y, probas[:, 1])
     plot_probability_distribution(probas)
