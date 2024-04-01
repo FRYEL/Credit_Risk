@@ -6,7 +6,7 @@ from matplotlib.ticker import ScalarFormatter
 colors = ['#0476df', '#50b1ff', '#0458a5', '#88cbff', '#00457a', '#032a4d', '#9e9e9e', '#828282', '#0078d6']
 sns.set_palette(sns.color_palette(colors))
 
-# Load df
+# Load df and unprocessed df
 df = pd.read_csv("../data/cleaned_data.csv", low_memory=False)
 df_legacy = pd.read_csv("../data/loan/loan.csv", low_memory=False)
 

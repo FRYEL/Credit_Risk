@@ -4,3 +4,5 @@ loan/
 credit-risk-dataset.zip
 *.xlsx
 test_models
+.env
+Plots
