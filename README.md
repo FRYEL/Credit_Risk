@@ -94,28 +94,29 @@ This script will load the best trained model using MLflow, make predictions on t
 │   ├── Model_testing.ipynb
 │   ├── Runtime_test.ipynb
 │   └── Viz.ipynb
-├── Plots/
 ├── README.md
 ├── mlartifacts/
 ├── mlruns/
-├── requirements.txt
 ├── src/
 │   ├── Model_Demo.py
 │   ├── Model_training.py
 │   ├── main.py
 │   └── win64_model/
 │       └── model_training_win64.py
-└── utils/
-    ├── log.py
-    ├── preprocessing.py
-    └── visualizations.py
+├── utils/
+│    ├── log.py
+│    ├── preprocessing.py
+│    └── visualizations.py
+├── README.md
+└── requirements.txt
 ```
 
-- `data`: Contains the cleaned dataset (`cleaned_data.csv`) and the predicted dataset (`predicted_data.csv`).
-- `utils`: Contains the preprocessing script (`preprocessing.py`).
-- `Model_training.py`: Script for training the XGBoost model.
-- `Model_Demo.py`: Script for demonstrating the prediction using the trained model.
-- `preprocessing.py`: Script for preprocessing the raw source data.
+- `data`: Contains the cleaned dataset (`cleaned_data.csv`), the predicted dataset (`predicted_data.csv`) and the source data (`loan.csv`).
+- `utils`: Contains the preprocessing script (`preprocessing.py`) and other utilities.
+-  - `preprocessing.py`: Script for preprocessing the raw source data.
+- `src`:
+  - `Model_training.py`: Script for training the XGBoost model.
+  - `Model_Demo.py`: Script for demonstrating the prediction using the trained model.
 - `requirements.txt`: List of required Python packages.
 - `README.md`: This README file.
 
