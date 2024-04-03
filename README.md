@@ -83,11 +83,11 @@ This script will load the best trained model using MLflow, make predictions on t
 ```
 .
 ├── data
-│   ├── cleaned_data.csv
-│   ├── predicted_data.csv
-│   └── loan/
-│        └── loan.csv
-├── .env
+│   ├── cleaned_data.csv (local)
+│   ├── predicted_data.csv (local)
+│   └── loan/ (local)
+│        └── loan.csv (local)
+├── .env (local)
 ├── .gitignore
 ├── Notebooks/
 │   ├── Data_preprocessing.ipynb
