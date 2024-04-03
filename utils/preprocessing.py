@@ -158,7 +158,7 @@ def preprocess_data(df):
 
     # loan to income
     df_indv['loan_to_income'] = round(df_indv['funded_amnt'] / df_indv['annual_inc'], 2)
-    df_indv['loan_to_income'].replace(np.inf, 2, inplace=True)
+    df_indv['loan_to_income'].replace(np.inf, 0, inplace=True)
 
     # total interest
     df_indv['total_interest'] = round((df_indv['term'] / 12) * df_indv['loan_amnt'] * (df_indv['int_rate'] / 100), 2)
@@ -171,7 +171,7 @@ def preprocess_data(df):
 
     # debt-to-income ratio monthly
     df_indv['dti_month'] = round(df_indv['installment'] / (df_indv['annual_inc'] / 12), 3)
-    df_indv['dti_month'].replace(np.inf, 1, inplace=True)
+    df_indv['dti_month'].replace(np.inf, 0, inplace=True)
     # format column order
     columns = ['loan_amnt', 'funded_amnt', 'term', 'int_rate',
                'installment', 'grade', 'sub_grade', 'emp_length', 'home_ownership',

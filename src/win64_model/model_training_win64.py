@@ -5,6 +5,8 @@ Model_training.py file to train a xgboost model, to predict loan default probabi
 
 import os
 import subprocess
+import time
+from typing import Any
 from utils.log import LOGGER
 from utils.preprocessing import preprocess_data
 import zipfile
@@ -18,22 +20,27 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve
 import numpy as np
 from sklearn.model_selection import train_test_split
+from dotenv import load_dotenv
 
 
-def get_data():
+def get_data() -> pd.DataFrame:
     """
     Load the source data and unzip
     :return: unprocessed data
     """
-    os.environ['KAGGLE_USERNAME'] = 'furkanyel'
-    os.environ['KAGGLE_KEY'] = '854a1d21e333a19a0ea49b3eae8ac61b'
+    load_dotenv("../.env")
+
+    KAGGLE_USERNAME = os.getenv('KAGGLE_USERNAME')
+    KAGGLE_KEY = os.getenv('KAGGLE_KEY')
 
     from kaggle.api.kaggle_api_extended import KaggleApi
-    # Authenticate with Kaggle MAKE SURE requirements.txt ARE FULLFILLED
+
     api = KaggleApi()
+    api.authenticate()
+
     # Define the command
     LOGGER.info(f'Downloading the Dataset...')
-    command = "kaggle datasets download -d ranadeep/credit-risk-dataset -p ./data"
+    command = "kaggle datasets download -d ranadeep/credit-risk-dataset -p ../data"
     subprocess.run(command, shell=True)
 
     zip_file = "../../data/credit-risk-dataset.zip"
@@ -42,12 +49,13 @@ def get_data():
     with zipfile.ZipFile(zip_file, 'r') as zip_ref:
         zip_ref.extractall(destination_folder)
 
-    unprocessed_data = pd.read_csv('../../data/loan/loan.csv', low_memory=False)
+    LOGGER.info(f'Reading the unprocessed Dataset...')
+    unprocessed_data = pd.read_csv('../data/loan/loan.csv', low_memory=False)
 
     return unprocessed_data
 
 
-def data_pipeline():
+def data_pipeline() -> pd.DataFrame:
     """
     Load the data and preprocess it
     :return: preprocessed data
@@ -57,7 +65,7 @@ def data_pipeline():
     return out
 
 
-def runtime_split(data, df_size):
+def runtime_split(data: pd.DataFrame, df_size: float) -> pd.DataFrame:
     """
     Reduce the size of the initial dataset for runtime improvements
     :param data: unprocessed dataset
@@ -76,7 +84,8 @@ def runtime_split(data, df_size):
     return reduced_df
 
 
-def prepare_split(data, test_size=0.6):
+def prepare_split(data: pd.DataFrame, test_size: float = 0.6) -> tuple[
+    Any, Any, Any, Any, list[tuple[Any, Any]], float]:
     """
     Split the dataset into train, val and test sets
     :param data: preprocessed dataframe
@@ -125,33 +134,28 @@ def set_model():
     return clf
 
 
-def set_param_space():
+def set_param_space() -> dict[
+    str, list[float] | list[float | int] | list[int | Any] | list[int] | list[float | int | Any]]:
     """
     Sets up the parameter space for the bayessearchCV
     :return: parameter space
     """
     param_space = {
-        "learning_rate": [0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.15, 0.2, 0.25, 0.35, 0.4, 0.5],
-        "max_depth": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-        "subsample": [0.7, 0.8, 0.9],
-        "colsample_bytree": [0.7, 0.8, 0.9],
-        "gamma": [0, 0.1, 0.25, 0.45, 0.5, 0.65, 0.75, 1],
-        "n_estimators": [100, 200, 300, 400, 450, 500]
+        'eta': [0.01, 0.03, 0.04, 0.05, 0.1, 0.2, 0.25, 0.3, 0.35, 0.5],
+        'max_depth': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+        'subsample': [0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+        'colsample_bytree': [0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+        'gamma': [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+        'lambda': [0.01, 0.1, 0.2, 0.5, 1, 1.5, 2, 3, 5, 10],
+        'alpha': [0, 0.01, 0.05, 0.1, 0.5, 1, 1.5, 2, 3],
+        'min_child_weight': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        'n_estimators': [50, 100, 150, 200, 250, 300, 350, 400, 450, 500]
     }
 
-    param_space_2 = {
-        "learning_rate": [0.1],
-        "max_depth": [10],
-        "subsample": [0.9],
-        "colsample_bytree": [0.7],
-        "gamma": [0.5],
-        "n_estimators": [450]
-    }
-
-    return param_space, param_space_2
+    return param_space
 
 
-def model_tuning(X_train, y_train, eval_set, iterations=100, cv=5):
+def model_tuning(X_train, y_train, eval_set, iterations: int = 100, cv: int = 5) -> BayesSearchCV:
     """
     Trains the xgboost model with bayessearchCV
     :param cv: value for cross validation, defaults to 5
@@ -162,7 +166,7 @@ def model_tuning(X_train, y_train, eval_set, iterations=100, cv=5):
     :return: fitted BayesSearchCV
     """
     clf = set_model()
-    param_space, param_space_2 = set_param_space()
+    param_space = set_param_space()
 
     mlflow.start_run()
     LOGGER.info('initiating BayesSearchCV...')
@@ -178,9 +182,10 @@ def model_tuning(X_train, y_train, eval_set, iterations=100, cv=5):
     return bayes_search
 
 
-def create_plots(bayes_search, X_train, y_train, X_test, y_test):
+def create_plots(bayes_search: BayesSearchCV, X_train, y_train, X_test, y_test, processed_data: pd.DataFrame):
     """
     Creates the ROC AUC curve plot
+    :param processed_data: preprocessed data
     :param bayes_search: fitted BayesSearchCV
     :param X_train: trainings data
     :param y_train: trainings target data
@@ -210,8 +215,26 @@ def create_plots(bayes_search, X_train, y_train, X_test, y_test):
     plt.legend()
     plt.show()
 
+    # -------------------------------Plot 2
+    X = processed_data.drop('loan_status', axis=1)
 
-def mlflow_logging(bayes_search, X_test, y_test, test_size):
+    # Plot feature importance
+    feature_importance = bayes_search.best_estimator_.feature_importances_
+    columns = X.columns
+
+    # Plot feature importance
+    plt.bar(range(len(feature_importance)), feature_importance)
+    plt.xlabel('Feature')
+    plt.ylabel('Importance')
+    plt.title('Feature Importance')
+    plt.xticks(range(len(feature_importance)), columns, rotation=45, ha='right')
+    plt.tight_layout()
+
+    # Display plot
+    plt.show()
+
+
+def mlflow_logging(bayes_search: BayesSearchCV, X_test, y_test, test_size: float):
     """
     Logs the training params, best_train auc , test auc, feature importance, dataset
     and xgboost model
@@ -230,7 +253,7 @@ def mlflow_logging(bayes_search, X_test, y_test, test_size):
 
     # Log metrics
     mlflow.log_metric("best_roc_auc", bayes_search.best_score_)
-
+    LOGGER.info(f"Best AUC score {bayes_search.best_score_}")
     # Evaluate model on test set
     y_pred_proba = bayes_search.predict_proba(X_test)[:, 1]
     test_roc_auc = roc_auc_score(y_test, y_pred_proba)
@@ -241,8 +264,8 @@ def mlflow_logging(bayes_search, X_test, y_test, test_size):
         mlflow.log_metric(f"feature_{i}_importance", importance)
 
     # Log dataset
-    mlflow.log_artifact("../../data/cleaned_data.csv")
-    LOGGER.info('Run Completed...')
+    mlflow.log_artifact("../data/cleaned_data.csv")
+    LOGGER.info('Hyperparametertuning Completed...')
 
 
 def run_experiment():
@@ -251,19 +274,21 @@ def run_experiment():
     :return:
     """
     processed_data = data_pipeline()
+    time.sleep(5)
+    LOGGER.info("Hyperparametertuning in progress...")
     # SET TRUE OR FALSE TO USE runtime_split TO REDUCE INITIAL DATASET
-    reduce_data = False
+    reduce_data = True
     if reduce_data:
         LOGGER.info('Processed data is split for performance...')
 
-        reduced_dataset = runtime_split(processed_data, 0.01)
+        reduced_dataset = runtime_split(processed_data, 0.05)
         X_train, X_test, y_train, y_test, eval_set, test_size = prepare_split(reduced_dataset, 0.5)
     else:
         X_train, X_test, y_train, y_test, eval_set, test_size = prepare_split(processed_data, 0.5)
     set_mlflow_uri()
-    model = model_tuning(X_train, y_train, eval_set, iterations=300, cv=15)
+    model = model_tuning(X_train, y_train, eval_set, iterations=10, cv=5)
     mlflow_logging(model, X_test, y_test, test_size)
-    create_plots(model, X_train, y_train, X_test, y_test)
+    create_plots(model, X_train, y_train, X_test, y_test, processed_data)
 
 
 if __name__ == '__main__':
