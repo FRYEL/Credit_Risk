@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/433857685802828484/ff3753c6fc3342aa91822212ff6b26e2/artifacts
+end_time: 1712181200257
+entry_point_name: ''
+experiment_id: '433857685802828484'
+lifecycle_stage: active
+run_id: ff3753c6fc3342aa91822212ff6b26e2
+run_name: crawling-fawn-998
+run_uuid: ff3753c6fc3342aa91822212ff6b26e2
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1712181168810
+status: 3
+tags: []
+user_id: yelf

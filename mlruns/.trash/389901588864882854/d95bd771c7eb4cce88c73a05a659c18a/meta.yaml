@@ -1,0 +1,16 @@
+artifact_uri: file:///C:/Users/furka/PycharmProjects/Credit_Risk/mlruns/389901588864882854/d95bd771c7eb4cce88c73a05a659c18a/artifacts
+deleted_time: 1711028125320
+end_time: 1710794385251
+entry_point_name: ''
+experiment_id: '389901588864882854'
+lifecycle_stage: deleted
+run_id: d95bd771c7eb4cce88c73a05a659c18a
+run_name: luxuriant-carp-209
+run_uuid: d95bd771c7eb4cce88c73a05a659c18a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1710790645742
+status: 3
+tags: []
+user_id: furka

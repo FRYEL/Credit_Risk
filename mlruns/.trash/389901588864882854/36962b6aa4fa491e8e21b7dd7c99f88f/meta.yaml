@@ -1,0 +1,16 @@
+artifact_uri: file:///C:/Users/furka/PycharmProjects/Credit_Risk/mlruns/389901588864882854/36962b6aa4fa491e8e21b7dd7c99f88f/artifacts
+deleted_time: 1710838641496
+end_time: 1710838366941
+entry_point_name: ''
+experiment_id: '389901588864882854'
+lifecycle_stage: deleted
+run_id: 36962b6aa4fa491e8e21b7dd7c99f88f
+run_name: painted-midge-826
+run_uuid: 36962b6aa4fa491e8e21b7dd7c99f88f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1710838350837
+status: 3
+tags: []
+user_id: yelf

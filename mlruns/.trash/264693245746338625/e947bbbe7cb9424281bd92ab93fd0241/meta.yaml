@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/264693245746338625/e947bbbe7cb9424281bd92ab93fd0241/artifacts
+deleted_time: 1712180943939
+end_time: null
+entry_point_name: ''
+experiment_id: '264693245746338625'
+lifecycle_stage: deleted
+run_id: e947bbbe7cb9424281bd92ab93fd0241
+run_name: ambitious-moose-665
+run_uuid: e947bbbe7cb9424281bd92ab93fd0241
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1712153892383
+status: 1
+tags: []
+user_id: yelf

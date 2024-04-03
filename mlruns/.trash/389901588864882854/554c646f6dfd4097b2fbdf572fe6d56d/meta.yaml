@@ -1,0 +1,16 @@
+artifact_uri: file:///C:/Users/furka/PycharmProjects/Credit_Risk/mlruns/389901588864882854/554c646f6dfd4097b2fbdf572fe6d56d/artifacts
+deleted_time: 1710839602841
+end_time: 1710839575874
+entry_point_name: ''
+experiment_id: '389901588864882854'
+lifecycle_stage: deleted
+run_id: 554c646f6dfd4097b2fbdf572fe6d56d
+run_name: omniscient-fowl-86
+run_uuid: 554c646f6dfd4097b2fbdf572fe6d56d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1710839557244
+status: 3
+tags: []
+user_id: yelf

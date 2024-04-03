@@ -1,0 +1,16 @@
+artifact_uri: file:///C:/Users/furka/PycharmProjects/Credit_Risk/mlruns/389901588864882854/57d5cbeb70eb42829a617b2b74a7519a/artifacts
+deleted_time: 1711028125320
+end_time: 1710800973342
+entry_point_name: ''
+experiment_id: '389901588864882854'
+lifecycle_stage: deleted
+run_id: 57d5cbeb70eb42829a617b2b74a7519a
+run_name: amazing-penguin-468
+run_uuid: 57d5cbeb70eb42829a617b2b74a7519a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1710800962800
+status: 3
+tags: []
+user_id: furka

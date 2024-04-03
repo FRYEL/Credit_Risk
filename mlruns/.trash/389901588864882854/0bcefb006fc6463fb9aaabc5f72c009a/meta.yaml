@@ -1,0 +1,16 @@
+artifact_uri: file:///C:/Users/furka/PycharmProjects/Credit_Risk/mlruns/389901588864882854/0bcefb006fc6463fb9aaabc5f72c009a/artifacts
+deleted_time: 1711028125320
+end_time: 1710632689249
+entry_point_name: ''
+experiment_id: '389901588864882854'
+lifecycle_stage: deleted
+run_id: 0bcefb006fc6463fb9aaabc5f72c009a
+run_name: puzzled-yak-850
+run_uuid: 0bcefb006fc6463fb9aaabc5f72c009a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1710626988072
+status: 3
+tags: []
+user_id: furka

@@ -212,6 +212,13 @@ def create_plots(bayes_search: BayesSearchCV, X_train, y_train, X_test, y_test, 
     plt.ylabel('True Positive Rate')
     plt.title('ROC Curve for Best Model')
     plt.legend()
+    roc_curve_path = "roc_curve.png"
+    plt.savefig(roc_curve_path)
+    plt.close()
+
+    # Log ROC curve plot as an artifact to MLflow
+    mlflow.log_artifact(roc_curve_path, artifact_path="plots")
+    os.remove(roc_curve_path)
     plt.show()
 
     # -------------------------------Plot 2
@@ -228,7 +235,13 @@ def create_plots(bayes_search: BayesSearchCV, X_train, y_train, X_test, y_test, 
     plt.title('Feature Importance')
     plt.xticks(range(len(feature_importance)), columns, rotation=45, ha='right')
     plt.tight_layout()
+    feature_importance_path = "feature_importance.png"
+    plt.savefig(feature_importance_path)
+    plt.close()
 
+    # Log feature importance plot as an artifact to MLflow
+    mlflow.log_artifact(feature_importance_path, artifact_path="plots")
+    os.remove(feature_importance_path)
     # Display plot
     plt.show()
 

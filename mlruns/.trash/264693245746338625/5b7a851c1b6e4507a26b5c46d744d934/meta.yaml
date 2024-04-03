@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/264693245746338625/5b7a851c1b6e4507a26b5c46d744d934/artifacts
+deleted_time: 1712180943939
+end_time: 1712153847168
+entry_point_name: ''
+experiment_id: '264693245746338625'
+lifecycle_stage: deleted
+run_id: 5b7a851c1b6e4507a26b5c46d744d934
+run_name: kindly-doe-571
+run_uuid: 5b7a851c1b6e4507a26b5c46d744d934
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1712153831022
+status: 4
+tags: []
+user_id: yelf

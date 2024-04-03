@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/433857685802828484/ac0c1651a41d4b1e9eec219ad35faa7c/artifacts
+end_time: 1712181473316
+entry_point_name: ''
+experiment_id: '433857685802828484'
+lifecycle_stage: active
+run_id: ac0c1651a41d4b1e9eec219ad35faa7c
+run_name: nebulous-mouse-366
+run_uuid: ac0c1651a41d4b1e9eec219ad35faa7c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1712181443263
+status: 3
+tags: []
+user_id: yelf

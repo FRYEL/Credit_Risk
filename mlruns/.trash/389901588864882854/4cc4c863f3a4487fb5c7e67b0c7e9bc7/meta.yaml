@@ -1,0 +1,16 @@
+artifact_uri: file:///C:/Users/furka/PycharmProjects/Credit_Risk/mlruns/389901588864882854/4cc4c863f3a4487fb5c7e67b0c7e9bc7/artifacts
+deleted_time: 1711028125320
+end_time: 1710681320551
+entry_point_name: ''
+experiment_id: '389901588864882854'
+lifecycle_stage: deleted
+run_id: 4cc4c863f3a4487fb5c7e67b0c7e9bc7
+run_name: adventurous-doe-994
+run_uuid: 4cc4c863f3a4487fb5c7e67b0c7e9bc7
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1710661084464
+status: 3
+tags: []
+user_id: furka

@@ -1,0 +1,16 @@
+artifact_uri: file:///C:/Users/furka/PycharmProjects/Credit_Risk/mlruns/389901588864882854/b921000452a144f5b51790e3b10737fb/artifacts
+deleted_time: 1710839497193
+end_time: 1710838951059
+entry_point_name: ''
+experiment_id: '389901588864882854'
+lifecycle_stage: deleted
+run_id: b921000452a144f5b51790e3b10737fb
+run_name: amusing-mule-227
+run_uuid: b921000452a144f5b51790e3b10737fb
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1710838950683
+status: 3
+tags: []
+user_id: yelf

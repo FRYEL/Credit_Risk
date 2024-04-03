@@ -1,0 +1,16 @@
+artifact_uri: file:///C:/Users/furka/PycharmProjects/Credit_Risk/mlruns/389901588864882854/aa18b4ac348b41469a9c6f95c5dd30ea/artifacts
+deleted_time: 1711028125320
+end_time: 1710800962764
+entry_point_name: ''
+experiment_id: '389901588864882854'
+lifecycle_stage: deleted
+run_id: aa18b4ac348b41469a9c6f95c5dd30ea
+run_name: sedate-steed-934
+run_uuid: aa18b4ac348b41469a9c6f95c5dd30ea
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1710794786085
+status: 3
+tags: []
+user_id: furka

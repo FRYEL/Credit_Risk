@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/264693245746338625/572306712a3246b3822aab43a8095c93/artifacts
+deleted_time: 1712180943939
+end_time: 1712153822757
+entry_point_name: ''
+experiment_id: '264693245746338625'
+lifecycle_stage: deleted
+run_id: 572306712a3246b3822aab43a8095c93
+run_name: useful-sponge-191
+run_uuid: 572306712a3246b3822aab43a8095c93
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1712153820900
+status: 4
+tags: []
+user_id: yelf
