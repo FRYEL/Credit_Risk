@@ -8,7 +8,7 @@ import subprocess
 import time
 from typing import Any
 from utils.log import LOGGER
-from utils.preprocessing import preprocess_data
+from utils.preprocessing_win import preprocess_data
 import zipfile
 import xgboost as xgb
 import pandas as pd
@@ -28,7 +28,7 @@ def get_data() -> pd.DataFrame:
     Load the source data and unzip
     :return: unprocessed data
     """
-    load_dotenv("../.env")
+    load_dotenv("../../.env")
 
     KAGGLE_USERNAME = os.getenv('KAGGLE_USERNAME')
     KAGGLE_KEY = os.getenv('KAGGLE_KEY')
@@ -40,7 +40,7 @@ def get_data() -> pd.DataFrame:
 
     # Define the command
     LOGGER.info(f'Downloading the Dataset...')
-    command = "kaggle datasets download -d ranadeep/credit-risk-dataset -p ../data"
+    command = "kaggle datasets download -d ranadeep/credit-risk-dataset -p ../../data"
     subprocess.run(command, shell=True)
 
     zip_file = "../../data/credit-risk-dataset.zip"
@@ -50,7 +50,7 @@ def get_data() -> pd.DataFrame:
         zip_ref.extractall(destination_folder)
 
     LOGGER.info(f'Reading the unprocessed Dataset...')
-    unprocessed_data = pd.read_csv('../data/loan/loan.csv', low_memory=False)
+    unprocessed_data = pd.read_csv('../../data/loan/loan.csv', low_memory=False)
 
     return unprocessed_data
 
@@ -84,15 +84,13 @@ def runtime_split(data: pd.DataFrame, df_size: float) -> pd.DataFrame:
     return reduced_df
 
 
-def prepare_split(data: pd.DataFrame, test_size: float = 0.6) -> tuple[
-    Any, Any, Any, Any, list[tuple[Any, Any]], float]:
+def prepare_split(data: pd.DataFrame, test_size: float = 0.6) -> tuple[Any, Any, Any, Any, list[tuple[Any, Any]], float]:
     """
     Split the dataset into train, val and test sets
     :param data: preprocessed dataframe
     :param test_size: choose test size (default=0.6)
     :return: X_train, X_test, y_train, y_test and eval set (X_val, y_val)
     """
-
     X = data.drop('loan_status', axis=1)
     y = data['loan_status']
     # Instantiate StratifiedShuffleSplit with n_splits=1
@@ -134,8 +132,7 @@ def set_model():
     return clf
 
 
-def set_param_space() -> dict[
-    str, list[float] | list[float | int] | list[int | Any] | list[int] | list[float | int | Any]]:
+def set_param_space() -> dict[str, list[float] | list[float | int] | list[int | Any] | list[int] | list[float | int | Any]]:
     """
     Sets up the parameter space for the bayessearchCV
     :return: parameter space
@@ -264,7 +261,7 @@ def mlflow_logging(bayes_search: BayesSearchCV, X_test, y_test, test_size: float
         mlflow.log_metric(f"feature_{i}_importance", importance)
 
     # Log dataset
-    mlflow.log_artifact("../data/cleaned_data.csv")
+    mlflow.log_artifact("../../data/cleaned_data.csv")
     LOGGER.info('Hyperparametertuning Completed...')
 
 
@@ -277,7 +274,7 @@ def run_experiment():
     time.sleep(5)
     LOGGER.info("Hyperparametertuning in progress...")
     # SET TRUE OR FALSE TO USE runtime_split TO REDUCE INITIAL DATASET
-    reduce_data = True
+    reduce_data = False
     if reduce_data:
         LOGGER.info('Processed data is split for performance...')
 
@@ -286,7 +283,7 @@ def run_experiment():
     else:
         X_train, X_test, y_train, y_test, eval_set, test_size = prepare_split(processed_data, 0.5)
     set_mlflow_uri()
-    model = model_tuning(X_train, y_train, eval_set, iterations=10, cv=5)
+    model = model_tuning(X_train, y_train, eval_set, iterations=500, cv=5)
     mlflow_logging(model, X_test, y_test, test_size)
     create_plots(model, X_train, y_train, X_test, y_test, processed_data)
 

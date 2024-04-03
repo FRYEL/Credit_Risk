@@ -1,8 +1,9 @@
 artifact_uri: file:///C:/Users/furka/PycharmProjects/Credit_Risk/mlruns/0/fd09ba45960546f280d7493954523fa0/artifacts
+deleted_time: 1712159507252
 end_time: 1710789977985
 entry_point_name: ''
 experiment_id: '0'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: fd09ba45960546f280d7493954523fa0
 run_name: caring-finch-528
 run_uuid: fd09ba45960546f280d7493954523fa0
