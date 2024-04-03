@@ -5,5 +5,5 @@ credit-risk-dataset.zip
 *.xlsx
 test_models
 .env
-Plots
+Visualisations
 utils/preprocessing_win.py
