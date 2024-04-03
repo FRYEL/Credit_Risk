@@ -8,7 +8,7 @@ import subprocess
 import time
 from typing import Any
 from utils.log import LOGGER
-from utils.preprocessing import preprocess_data
+from utils.preprocessing import preprocessing_pipeline
 import zipfile
 import xgboost as xgb
 import pandas as pd
@@ -61,7 +61,7 @@ def data_pipeline() -> pd.DataFrame:
     :return: preprocessed data
     """
     data = get_data()
-    out = preprocess_data(data)
+    out = preprocessing_pipeline(data)
     return out
 
 
@@ -84,7 +84,8 @@ def runtime_split(data: pd.DataFrame, df_size: float) -> pd.DataFrame:
     return reduced_df
 
 
-def prepare_split(data: pd.DataFrame, test_size: float = 0.6) -> tuple[Any, Any, Any, Any, list[tuple[Any, Any]], float]:
+def prepare_split(data: pd.DataFrame, test_size: float = 0.6) -> tuple[
+    Any, Any, Any, Any, list[tuple[Any, Any]], float]:
     """
     Split the dataset into train, val and test sets
     :param data: preprocessed dataframe
