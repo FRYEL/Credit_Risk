@@ -8,7 +8,7 @@ import subprocess
 import time
 from typing import Any
 from utils.log import LOGGER
-from utils.preprocessing_win import preprocess_data
+from utils.preprocessing_win import preprocessing_pipeline
 import zipfile
 import xgboost as xgb
 import pandas as pd
@@ -21,6 +21,7 @@ from sklearn.metrics import roc_curve
 import numpy as np
 from sklearn.model_selection import train_test_split
 from dotenv import load_dotenv
+from utils.mail_notif import send_email
 
 
 def get_data() -> pd.DataFrame:
@@ -61,7 +62,7 @@ def data_pipeline() -> pd.DataFrame:
     :return: preprocessed data
     """
     data = get_data()
-    out = preprocess_data(data)
+    out = preprocessing_pipeline(data)
     return out
 
 
@@ -84,7 +85,8 @@ def runtime_split(data: pd.DataFrame, df_size: float) -> pd.DataFrame:
     return reduced_df
 
 
-def prepare_split(data: pd.DataFrame, test_size: float = 0.6) -> tuple[Any, Any, Any, Any, list[tuple[Any, Any]], float]:
+def prepare_split(data: pd.DataFrame, test_size: float = 0.6) -> tuple[
+    Any, Any, Any, Any, list[tuple[Any, Any]], float]:
     """
     Split the dataset into train, val and test sets
     :param data: preprocessed dataframe
@@ -132,7 +134,8 @@ def set_model():
     return clf
 
 
-def set_param_space() -> dict[str, list[float] | list[float | int] | list[int | Any] | list[int] | list[float | int | Any]]:
+def set_param_space() -> dict[
+    str, list[float] | list[float | int] | list[int | Any] | list[int] | list[float | int | Any]]:
     """
     Sets up the parameter space for the bayessearchCV
     :return: parameter space
@@ -274,7 +277,7 @@ def run_experiment():
     time.sleep(5)
     LOGGER.info("Hyperparametertuning in progress...")
     # SET TRUE OR FALSE TO USE runtime_split TO REDUCE INITIAL DATASET
-    reduce_data = False
+    reduce_data = True
     if reduce_data:
         LOGGER.info('Processed data is split for performance...')
 
@@ -283,10 +286,11 @@ def run_experiment():
     else:
         X_train, X_test, y_train, y_test, eval_set, test_size = prepare_split(processed_data, 0.5)
     set_mlflow_uri()
-    model = model_tuning(X_train, y_train, eval_set, iterations=200, cv=10)
+    model = model_tuning(X_train, y_train, eval_set, iterations=1, cv=2)
     mlflow_logging(model, X_test, y_test, test_size)
     create_plots(model, X_train, y_train, X_test, y_test, processed_data)
 
 
 if __name__ == '__main__':
     run_experiment()
+    send_email("Model training has completed", "Model training has completed", "furkanyel20@gmail.com")
