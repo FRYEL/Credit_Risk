@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/321489916799141239/f7845d3564f042b1bee4e6587635f4b2/artifacts
+deleted_time: 1712159321828
+end_time: 1712159289054
+entry_point_name: ''
+experiment_id: '321489916799141239'
+lifecycle_stage: deleted
+run_id: f7845d3564f042b1bee4e6587635f4b2
+run_name: brawny-snail-594
+run_uuid: f7845d3564f042b1bee4e6587635f4b2
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1712159250549
+status: 3
+tags: []
+user_id: furka

@@ -2,9 +2,9 @@ aliases:
 - dreadnought
 creation_timestamp: 1710930712593
 current_stage: None
-description: Best Model, trained with 300 iterations and 15 cross validations on the
-  full dataset
-last_updated_timestamp: 1711018347151
+description: Test  Model, trained with 300 iterations and 15 cross validations on
+  the full dataset
+last_updated_timestamp: 1712411195682
 name: XGBoost
 run_id: 8510bb96364e476da1d5a4960623d6da
 run_link: ''

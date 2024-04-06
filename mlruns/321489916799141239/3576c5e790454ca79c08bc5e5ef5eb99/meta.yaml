@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/321489916799141239/3576c5e790454ca79c08bc5e5ef5eb99/artifacts
+deleted_time: 1712388392355
+end_time: 1712388356754
+entry_point_name: ''
+experiment_id: '321489916799141239'
+lifecycle_stage: deleted
+run_id: 3576c5e790454ca79c08bc5e5ef5eb99
+run_name: respected-bee-28
+run_uuid: 3576c5e790454ca79c08bc5e5ef5eb99
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1712159737858
+status: 3
+tags: []
+user_id: furka

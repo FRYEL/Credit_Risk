@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/321489916799141239/0119759c94354e4c949ed03dfd3ecd5b/artifacts
+deleted_time: 1712388395129
+end_time: 1712159386598
+entry_point_name: ''
+experiment_id: '321489916799141239'
+lifecycle_stage: deleted
+run_id: 0119759c94354e4c949ed03dfd3ecd5b
+run_name: lyrical-bass-471
+run_uuid: 0119759c94354e4c949ed03dfd3ecd5b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1712159356926
+status: 3
+tags: []
+user_id: furka

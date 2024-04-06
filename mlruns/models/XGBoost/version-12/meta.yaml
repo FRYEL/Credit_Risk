@@ -1,0 +1,16 @@
+aliases:
+- sovereign
+creation_timestamp: 1712410874343
+current_stage: None
+description: Final best model trained on 200 iterations and 10 cross validations on
+  the full dataset
+last_updated_timestamp: 1712411179422
+name: XGBoost
+run_id: 8ebb7e6da8294ad5a265696e1638e339
+run_link: ''
+source: mlflow-artifacts:/321489916799141239/8ebb7e6da8294ad5a265696e1638e339/artifacts/xgboost_model
+status: READY
+status_message: null
+storage_location: mlflow-artifacts:/321489916799141239/8ebb7e6da8294ad5a265696e1638e339/artifacts/xgboost_model
+user_id: null
+version: 12

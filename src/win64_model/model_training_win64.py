@@ -169,10 +169,10 @@ def model_tuning(X_train, y_train, eval_set, iterations: int = 100, cv: int = 5)
     LOGGER.info('initiating BayesSearchCV...')
     bayes_search = BayesSearchCV(clf, search_spaces=param_space,
                                  n_iter=iterations, scoring='roc_auc',
-                                 cv=cv, verbose=1,
+                                 cv=cv, verbose=2,
                                  n_jobs=-1)
 
-    bayes_search.fit(X_train, y_train, eval_set=eval_set, verbose=True)
+    bayes_search.fit(X_train, y_train, eval_set=eval_set, verbose=2)
 
     mlflow.xgboost.log_model(bayes_search.best_estimator_, "xgboost_model")
 
@@ -283,7 +283,7 @@ def run_experiment():
     else:
         X_train, X_test, y_train, y_test, eval_set, test_size = prepare_split(processed_data, 0.5)
     set_mlflow_uri()
-    model = model_tuning(X_train, y_train, eval_set, iterations=500, cv=5)
+    model = model_tuning(X_train, y_train, eval_set, iterations=200, cv=10)
     mlflow_logging(model, X_test, y_test, test_size)
     create_plots(model, X_train, y_train, X_test, y_test, processed_data)
 

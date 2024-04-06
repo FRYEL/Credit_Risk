@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/321489916799141239/8ebb7e6da8294ad5a265696e1638e339/artifacts
+end_time: 1712410312187
+entry_point_name: ''
+experiment_id: '321489916799141239'
+lifecycle_stage: active
+run_id: 8ebb7e6da8294ad5a265696e1638e339
+run_name: overjoyed-shark-22
+run_uuid: 8ebb7e6da8294ad5a265696e1638e339
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1712388444282
+status: 3
+tags: []
+user_id: furka
