@@ -6,6 +6,13 @@ import os
 
 
 def send_email(subject, body, to_email):
+    """
+    function to send email
+    :param subject:
+    :param body:
+    :param to_email:
+    :return:
+    """
     # Email configurations
 
     # Load environment variables from .env file

@@ -14,7 +14,6 @@ import matplotlib.pyplot as plt
 import xgboost as xgb
 
 
-
 def get_processed_data() -> tuple[DataFrame, DataFrame, Any]:
     """
     Load the data and split it into features and target column
@@ -35,7 +34,7 @@ def get_model_and_predict(X: pd.DataFrame) -> tuple[int | Any, Any, Any]:
     """
     LOGGER.info('Model is predicting...')
     mlflow.set_tracking_uri("http://127.0.0.1:5000")
-    logged_model = 'runs:/8510bb96364e476da1d5a4960623d6da/xgboost_model'
+    logged_model = 'runs:/8ebb7e6da8294ad5a265696e1638e339/xgboost_model'
     loaded_model = mlflow.xgboost.load_model(logged_model)
     probas = loaded_model.predict_proba(pd.DataFrame(X))
     preds = loaded_model.predict(pd.DataFrame(X))
@@ -111,7 +110,6 @@ def plot_precision_recall_curve(y_test, probas):
     plt.ylabel('Precision')
     plt.title('Precision-Recall Curve')
     plt.show()
-
 
 
 def plot_probability_distribution(probas):

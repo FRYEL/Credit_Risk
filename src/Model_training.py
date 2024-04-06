@@ -174,7 +174,7 @@ def model_tuning(X_train, y_train, eval_set, iterations: int = 100, cv: int = 5)
                                  cv=cv, verbose=1,
                                  n_jobs=-1)
 
-    bayes_search.fit(X_train, y_train, eval_set=eval_set, verbose=True)
+    bayes_search.fit(X_train, y_train, eval_set=eval_set, verbose=1)
 
     mlflow.xgboost.log_model(bayes_search.best_estimator_, "xgboost_model")
 
