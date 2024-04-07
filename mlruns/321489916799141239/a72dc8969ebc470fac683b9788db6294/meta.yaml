@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/321489916799141239/a72dc8969ebc470fac683b9788db6294/artifacts
+end_time: 1712448518334
+entry_point_name: ''
+experiment_id: '321489916799141239'
+lifecycle_stage: active
+run_id: a72dc8969ebc470fac683b9788db6294
+run_name: awesome-goat-124
+run_uuid: a72dc8969ebc470fac683b9788db6294
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1712412162029
+status: 3
+tags: []
+user_id: furka

@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/321489916799141239/394ffca07ab04c7493fc526ec6d77267/artifacts
+deleted_time: 1712429262952
+end_time: 1712411661957
+entry_point_name: ''
+experiment_id: '321489916799141239'
+lifecycle_stage: deleted
+run_id: 394ffca07ab04c7493fc526ec6d77267
+run_name: clumsy-bat-133
+run_uuid: 394ffca07ab04c7493fc526ec6d77267
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1712411661849
+status: 3
+tags: []
+user_id: furka
