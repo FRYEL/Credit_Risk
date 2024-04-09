@@ -73,9 +73,9 @@ def calculate_metrics(probas, preds, y):
     accuracy = accuracy_score(y, preds)
     f1 = f1_score(y, preds)
 
-    print(f'The trained XGBoost model achieved an accuracy of {accuracy * 100:.2f}%')
-    print(f'The trained XGBoost model achieved an F1 score of {f1 * 100:.2f}%')
-    print(f'The trained XGBoost model achieved an ROC AUC score of {roc_auc_best * 100:.2f}%')
+    print(f'The trained XGBoost model achieved an accuracy of {accuracy:.2f}')
+    print(f'The trained XGBoost model achieved an F1 score of {f1:.2f}')
+    print(f'The trained XGBoost model achieved an ROC AUC score of {roc_auc_best:.4f}')
     time.sleep(6)
     print('\nClassification Report:')
     print(classification_report(y, preds))
