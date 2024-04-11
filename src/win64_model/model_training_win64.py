@@ -85,8 +85,7 @@ def runtime_split(data: pd.DataFrame, df_size: float) -> pd.DataFrame:
     return reduced_df
 
 
-def prepare_split(data: pd.DataFrame, test_size: float = 0.6) -> tuple[
-    Any, Any, Any, Any, list[tuple[Any, Any]], float]:
+def prepare_split(data: pd.DataFrame, test_size: float = 0.6) -> tuple[Any, Any, Any, Any, list[tuple[Any, Any]], float]:
     """
     Split the dataset into train, val and test sets
     :param data: preprocessed dataframe
@@ -134,8 +133,7 @@ def set_model():
     return clf
 
 
-def set_param_space() -> dict[
-    str, list[float] | list[float | int] | list[int | Any] | list[int] | list[float | int | Any]]:
+def set_param_space() -> dict[str, list[float] | list[float | int] | list[int | Any] | list[int] | list[float | int | Any]]:
     """
     Sets up the parameter space for the bayessearchCV
     :return: parameter space
@@ -277,7 +275,7 @@ def run_experiment():
     time.sleep(5)
     LOGGER.info("Hyperparametertuning in progress...")
     # SET TRUE OR FALSE TO USE runtime_split TO REDUCE INITIAL DATASET
-    reduce_data = True
+    reduce_data = False
     if reduce_data:
         LOGGER.info('Processed data is split for performance...')
 
