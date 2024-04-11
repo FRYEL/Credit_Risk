@@ -35,9 +35,11 @@ def select_relevant_columns(df):
     :return: relevant columns in dataframe
     """
     relevant_columns = ['loan_amnt', 'funded_amnt', 'term', 'int_rate', 'installment',
-         'grade', 'sub_grade', 'emp_length', 'home_ownership', 'annual_inc', 'verification_status', 'loan_status',
-         'purpose', 'addr_state', 'dti', 'delinq_2yrs', 'mths_since_last_delinq', 'total_acc', 'out_prncp',
-         'total_pymnt', 'total_rec_prncp', 'total_rec_int', 'total_rec_late_fee', 'acc_now_delinq']
+                        'grade', 'sub_grade', 'emp_length', 'home_ownership', 'annual_inc', 'verification_status',
+                        'loan_status',
+                        'purpose', 'addr_state', 'dti', 'delinq_2yrs', 'mths_since_last_delinq', 'total_acc',
+                        'out_prncp',
+                        'total_pymnt', 'total_rec_prncp', 'total_rec_int', 'total_rec_late_fee', 'acc_now_delinq']
     return df[relevant_columns]
 
 
@@ -162,7 +164,7 @@ def format_column_order(df):
         'loan_amnt', 'funded_amnt', 'term', 'int_rate', 'installment', 'grade',
         'sub_grade', 'emp_length', 'home_ownership', 'annual_inc', 'verification_status',
         'purpose', 'addr_state', 'dti', 'delinq_2yrs', 'mths_since_last_delinq',
-        'total_acc', 'out_prncp', 'total_pymnt', 'total_rec_prncp','total_rec_int', 'total_rec_late_fee',
+        'total_acc', 'out_prncp', 'total_pymnt', 'total_rec_prncp', 'total_rec_int', 'total_rec_late_fee',
         'acc_now_delinq', 'loan_to_income', 'total_interest', 'loan_performance',
         'repayment_rate', 'dti_month', 'loan_status'
     ]
@@ -177,7 +179,7 @@ def save_preprocessed_data(df, filepath="../data/cleaned_data.csv"):
     :param filepath: filepath to save
     :return: None
     """
-    X_train, X_test, y_train, y_test = train_test_split(df,
+    X_train, X_test, y_train, y_test = train_test_split(df.drop('loan_status', axis=1),
                                                         df['loan_status'],
                                                         test_size=0.2,
                                                         random_state=77)
@@ -207,6 +209,5 @@ def preprocessing_pipeline(df):
     df = format_column_order(df)
     save_preprocessed_data(df)
     LOGGER.info("Preprocessing finished!")
-
 
     return df

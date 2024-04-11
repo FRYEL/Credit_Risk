@@ -21,13 +21,13 @@ def get_processed_data() -> tuple[DataFrame, DataFrame, Any]:
     :return: Dataframe, features and target column
     """
     LOGGER.info('Reading data...')
-    df = pd.read_csv('../data/cleaned_data.csv', low_memory=False)
+    df = pd.read_csv('../data/demo_data.csv', low_memory=False)
     y = df['loan_status']
     X = df.drop('loan_status', axis=1)
     return df, X, y
 
 
-def get_model_and_predict(X: pd.DataFrame) -> tuple[int | Any, Any, Any]:
+def get_model_and_predict(X: pd.DataFrame, modelpath) -> tuple[int | Any, Any, Any]:
     """
     Load the best trained model from mlflow and predict the probability of default
     :param X: Features DataFrame
@@ -35,7 +35,7 @@ def get_model_and_predict(X: pd.DataFrame) -> tuple[int | Any, Any, Any]:
     """
     LOGGER.info('Model is predicting...')
     mlflow.set_tracking_uri("http://127.0.0.1:5000")
-    logged_model = 'runs:/a72dc8969ebc470fac683b9788db6294/xgboost_model'
+    logged_model = modelpath
     loaded_model = mlflow.xgboost.load_model(logged_model)
     probas = loaded_model.predict_proba(pd.DataFrame(X))
     preds = loaded_model.predict(pd.DataFrame(X))
@@ -145,7 +145,7 @@ def predict():
     LOGGER.info('Model demo starting...')
     time.sleep(5)
     df, X, y = get_processed_data()
-    probas, preds, loaded_model = get_model_and_predict(X)
+    probas, preds, loaded_model = get_model_and_predict(X, 'runs:/e83345fd06fb4f75b277129d48a5ec95/xgboost_model')
     add_save_predictions(probas, df)
     calculate_metrics(probas, preds, y)
     colors = ['#0476df', '#50b1ff', '#0458a5', '#88cbff', '#00457a', '#032a4d', '#9e9e9e', '#828282', '#0078d6']
