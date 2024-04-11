@@ -98,9 +98,9 @@ To run both scripts you can execute the `main.py` file.
 ├── data
 │   ├── cleaned_data.csv (local)
 │   ├── predicted_data.csv (local)
+│   ├── demo_data.csv (local)
 │   └── loan/ (local)
 │        └── loan.csv (local)
-├── .env (local)
 ├── mlartifacts/
 ├── mlruns/
 ├── Notebooks/
@@ -118,7 +118,9 @@ To run both scripts you can execute the `main.py` file.
 │    ├── log.py
 │    ├── preprocessing.py
 │    └── visualizations.py
+├── .env (local)
 ├── .gitignore
+├── LICENSE
 ├── README.md
 └── requirements.txt
 ```
