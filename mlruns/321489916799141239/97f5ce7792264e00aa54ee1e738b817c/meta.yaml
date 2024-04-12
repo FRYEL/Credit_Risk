@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/321489916799141239/97f5ce7792264e00aa54ee1e738b817c/artifacts
+end_time: 1712894281554
+entry_point_name: ''
+experiment_id: '321489916799141239'
+lifecycle_stage: active
+run_id: 97f5ce7792264e00aa54ee1e738b817c
+run_name: delicate-mare-984
+run_uuid: 97f5ce7792264e00aa54ee1e738b817c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1712856429201
+status: 3
+tags: []
+user_id: furka
