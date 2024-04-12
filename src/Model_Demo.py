@@ -145,7 +145,7 @@ def predict():
     LOGGER.info('Model demo starting...')
     time.sleep(5)
     df, X, y = get_processed_data()
-    probas, preds, loaded_model = get_model_and_predict(X, 'runs:/e83345fd06fb4f75b277129d48a5ec95/xgboost_model')
+    probas, preds, loaded_model = get_model_and_predict(X, 'runs:/97f5ce7792264e00aa54ee1e738b817c/xgboost_model')
     add_save_predictions(probas, df)
     calculate_metrics(probas, preds, y)
     colors = ['#0476df', '#50b1ff', '#0458a5', '#88cbff', '#00457a', '#032a4d', '#9e9e9e', '#828282', '#0078d6']
