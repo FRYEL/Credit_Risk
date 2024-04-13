@@ -30,6 +30,7 @@ def get_processed_data() -> tuple[DataFrame, DataFrame, Any]:
 def get_model_and_predict(X: pd.DataFrame, modelpath) -> tuple[int | Any, Any, Any]:
     """
     Load the best trained model from mlflow and predict the probability of default
+    :param modelpath: Mlflow Model path
     :param X: Features DataFrame
     :return: probabilities, predictions and the model
     """
