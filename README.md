@@ -105,13 +105,14 @@ To run both scripts you can execute the `main.py` file.
 ├── mlruns/
 ├── Notebooks/
 │   ├── Data_preprocessing.ipynb
+│   ├── dummy_classifier.ipynb
 │   ├── Model_testing.ipynb
 │   ├── Runtime_test.ipynb
 │   └── Viz.ipynb
 ├── src/
+│   ├── main.py
 │   ├── Model_Demo.py
 │   ├── Model_training.py
-│   ├── main.py
 │   └── win64_model/
 │       └── model_training_win64.py
 ├── utils/
